@@ -1,12 +1,12 @@
 
 const links = [{
   label: 'Week 01 Notes',
-  url: 'week01.html',
+  url: '../wdd330/week01/index.html',
 },
-               {
-                 label: 'Week 02 Notes',
-                 url: 'week02.html',
-               }
+{
+   label: 'Week 02 Notes',
+   url: '../wdd330/week02/index.html.html',
+}
 ];
   
 const ol = document.getElementById('weekly');
