@@ -1,0 +1,690 @@
+Week 2 Notes:
+JavaScript: Novice to Ninja, 2nd Edition
+Chapter 2 – Programming Basics
+Comments:
+•	Single line comments start with // and finish at the end of the line
+•	Multi-line comments start with /* and finish with */
+It’s good practice to write comments in your code.
+
+JavaScript Grammar:
+JavaScript is known as a C-style syntax because of its similarities with the C programming language.
+JavaScript is made up of a series of statements, each statement ending with a new line or semicolon
+JavaScript interpreters use a process called Automatic Semicolon Insertion (ASI), this can be error-prone.
+Best practice is to combine the two and write each statement on a new line, terminated by a semi-colon.
+A block is a series of statements collected together inside curly braces and do not need to be terminated by semi-colons.
+
+Reserved Words:
+Reserved words are used by the JavaScript language and cannot be used to name variables, function parameters or object properties.
+The following words are not reserved words but should be treated as reserved words
+•	Undefined
+•	NaN
+•	Infinity
+
+Primitive Data Types:
+•	String
+•	Symbol (The symbol primitive data type was only introduced in ES6)
+•	Number
+•	Boolean
+•	Undefined
+•	Null
+Any value that is not one of the primitive data types listed is an object, these include arrays, functions and object literals.
+JavaScript has a special operator, typeof, for finding out the type of a value.
+An operator applies an operation to a value, known as the operand.
+A binary operator requires two operands
+A ternary operator requires three operands.
+
+Variables:
+	Declaring and Assigning
+•	Variables have to be declared before they ca be used.
+•	ES6 forward uses the keywords const and let to declare variables
+•	const is used when the variable will not be reassigned to another value.
+•	let is used if the variable might be reassigned later in the program
+•	use the = operator to assign a constant or variable
+•	declare and assign multiple variables at the same time by separating them by commas: let x = 3, y = 4, z = 5;
+•	Using const with an array, function or object will not make it immutable, the underlying data inside can be changed or mutated.
+Scope
+o	Global Scope
+o	Variable declared outside of a block
+o	Accessible everywhere in the program
+o	Not considered good practice, keep to a minimum
+
+•	Local Scope
+o	Variables defined inside a block using let or const will only be available inside that block
+o	If let or const are not used, the variable will have a global scope
+
+Naming Constants & Variables
+•	Give them sensible names that describe what the variable represents
+•	Names can start with upper- or lower-case letters, underscore or dollar character. They can also contain numbers, but cannot start with them.
+•	Variables that start with an underscore generally refer to private properties and methods, best to not follow this convention for naming variables.
+•	Using the $ character may also cause problems as this is also used by the jQuery library.
+•	Constants and variables are case sensitive, ANSWER, Answer and answer are all different.
+•	There are two conventions when using multiple words for naming
+o	Camel case, firstNameAndLastName
+o	Underscore, first_name_and_last_name
+•	Be consistent, JavaScript’s built-in functions use camel-case, probably the best convention to follow.
+
+Direct Assignment and Assignment By Reference
+
+
+Strings
+     A collection of characters, such as letters and symbols.
+     Create a string literal by writing a group of characters inside quote marks. ie: ‘hello’
+     Use double quote marks to enclose a string when using an apostrophe within a string. ie: “It’s me”
+     Or place a backslash before the apostrophe, ie ‘It\’s me’
+	The backslash is used to escape special characters in strings such as:
+	Single quote marks \’
+	Double quote marks \”
+	End of line \n
+	Carriage return \r
+	Tab \t
+To write a backslash you need to escape it with another backslash \\
+
+String Properties and Methods
+     To access the properties of a string use the dot notation, name.length;
+     As an alternative, square brackets [ ] can be used to access a primitive data type property,     name{‘length’];
+	All properties of primitive data types are immutable, unable to change.
+	To call a method, use the dot operator (.) followed by the name of the method, followed by parentheses (methods end with parentheses and properties don’t). ie name.toUpperCase();
+•	toUpperCase()
+•	toLowerCase()
+•	charAt()
+•	indexOf()
+•	lastIndexOf()
+•	includes()
+•	startsWith()
+•	endsWith()
+•	concat()
+•	trim()
+•	repeat()
+
+Template Literals
+Are special types of strings that were introduced in ES6. Template literals use the backtick character, `, to deliminate the string. This has the advantage of being able to use both types of quote marks within a string. ie `She said, “It’s Me!”`
+They also allow interpolation of JavaScript code. This means that a JavaScript expression can be inserted inside a string and the result will be displayed. Ie:
+		Const name = `Siri`;
+		`Hello ${ name }!`;
+		<<’Hello Siri!’
+The JavaScript expression is placed inside the curly braces with a $ character in front of them. This is then evaluated and the result is returned in the string output.
+Template literals can also contain line breaks, which are all converted into a line feed (\n)
+Backticks inside a template literal need to be escaped in the usual way, ie `This character, \`, is a backtick`
+
+Symbols
+	Do not have a literal form.
+To create them is to use the Symbol( ) function. ie: const uniqueID = Symbol(‘this is a unique ID’);
+
+
+
+Numbers
+	Can be integers or floating point numbers.
+  	Examples:
+		typeof 42; // integer
+		typeof 3.14159; // floating point decimal
+	Number.isInteger(); Can be used to check if a number is an integer.
+
+Octal and Hexadecimal Numbers
+	If a number starts with a 0x, it is considered to be in hexadecimal notation.
+	Example 0xAF; – base 16
+	Hex numbers are often used for color codes on the Web
+	Example 0o47; - base 8
+	Example 0b1010; - base 2
+
+Exponential Notation
+	Shorthand for multiply by 10 to the power of
+	Example 1e6; means 1 multiplied by 10 to the power 6
+		2E3; means 2 multiplied by 10^3
+	Create a decimal value by using a negative index value.
+	Example 2.5e-3; means 2.5 multiplied by 10 to the power of -3
+
+Number Methods
+	To Exponential() returns the number as a string in exponential notation
+	The toFixed() method rounds a number to a fixed number of decimal places
+	Example: PI.toFixed(3); returns “3.142”
+The toPrecision() method rounds a number to a fixed number of significant figures that is also returned as a string.
+
+Arithmetic Operations
+	Addition
+	Subtraction
+	Multiplication
+	Division
+	Exponentiation
+	Calculate the remainder of a division using % operator
+
+Changing The Value of Variables
+	let points = 0;
+	points = points + 10;
+	This can also by done using the compound assignment operator +=.
+	points += 10;
+	-= decrease 
+	*= multiplies
+	/= divides
+	%= changes the value to the remainder 
+
+Incrementing Values
+	++ operator will increase a value by 1
+	points++ returns the original value then increases it by 1
+	++points increases the value by 1 then returns the new value.		
+
+Infinity
+Is a special error value in JavaScript that is used to represent any number that is to big for the language to deal with.
+The -Infinity is used for negative numbers 
+
+NaN
+	Is an error value that is short for “Not a Number”. 
+	It is used when an operation is attempted and the result isn’t numerical.
+
+Checking a Value is a Number
+Number.isFinity() method can be used to check if a value is a number. This will return true if the value is a number that isn’t Infinity, -Infinity or NaN
+
+Type Coercion
+	Happens when the operands of an operator are of different types. 
+Example: if you try to multiply a string and a number together, JavaScript will attempt to coerce the sting into a number.
+
+Converting Between Strings and Numbers
+	Use the Number method to change a string to a number
+		Example: Number(‘23’);
+	Use the String function to change a number to a string
+		Example: String(3);
+	Another option is to use the toString()method
+		Example: 10..toString();
+toString() can be used to change a base of the number, for example if you want to write the number 10 in binary(base two) you could write:  10..toString(2); << ’1010’
+
+Parsing Numbers
+parseInt() can be used to convert a string representation of a numerical value back into a number. You can specify the base of the number you are trying to convert.
+		Example: parseInt(‘1010’,2);  <<10
+			   parseInt(‘omg’,36);  <<31912
+			   parseInt(‘23’,10);  <<23
+	parseFloat() converts strings into floating point decimal numbers.
+		Example: parseFloat(‘2.9, 10);  <<2.9
+
+Undefined
+Is the value given to variables that have not been assigned a value. It can also occur if an object property doesn’t exist or a function has a missing parameter.
+
+Null
+	Means ‘no value’
+Both undefined and Null are ‘non-value’ values, meaning they are similar but behave slightly different.
+Values tend to be set to undefined by JavaScript.
+Values are usually set to null manually by the programmer.
+
+Booleans
+	Boolean has only two values: true or false.
+	Use the Boolean function to find the value of something
+		Example: Boolean(‘hello’);  <<true
+			   Boolean(42);  <<true
+			    Boolean(0);  <<false
+	Only 9 values are always false and these are known as falsy values
+•	“” //double quoted empty string literal
+•	‘’  //single quoted empty sting literal
+•	`` // empty template literal
+•	0 
+•	-0 // considered different to 0 by JavaScript
+•	NaN
+•	false
+•	null
+•	undefined
+
+Logical Operators
+Can be sued with any primitive value or object, the results are based on whether the values are considered to be truthy or falsy.
+	!(Logical NOT)
+Placing the ! operator in front of a value will convert it to a Boolean and return the opposite value. So truthy will return false and falsy values will return true, known as negation.
+Use double negation (!!) to find out if a value is truthy or falsy.
+		&&(Logical AND)
+Works on two or more operands and only evaluates to true if all the operands are truthy.
+		||(Logical OR)
+Works on two or more operands, but evaluates to true if any of the operands are true.
+Bitwise Operators
+Work with operands that are 32-bit integers. These are numbers written in binary (base two) that have 32 digits made up of just 0’s and 1’s.
+Bitwise operators tend to only be used for low-level programming tasks or applications that require a number of on-off states. They are unlikely to be used often.
+
+	Bitwise NOT
+Bitwise NOT operator (~) will convert the number to a 32-bit integer, then change all the 1’s to 0’s and all the 0’s to 1’s, then returns the new value as an integer.
+	Bitwise AND
+Bitwise AND operator (&) will convert both numbers into binary and return a number that in binary has a 1 in each position for which the corresponding bits of both operands are 1’s.
+	Bitwise OR
+Bitwise OR operator (|) which will convert both numbers into binary and return a number that in binary has a 1 in each position for which the corresponding bits of either operands are 1’s.
+	Bitwise XOR
+Bitwise XOR operator (^) stands for eXclusive OR, will convert both numbers into binry and return a number that in binary has a 1 in each position for which the corresponding bits of either operands are 1’s, but not both 1’s.
+	Bitwise Shift Operators
+Bitwise shift operators (<<) and (>>) will move the binary representation a given number of places to the right or left, which effectively multiplies or divides the number by powers of two.
+
+Comparison
+	Equality
+To check for equality use the (==), known as ‘soft equality’, or the triple equals operator (===), known as ‘hard equality’.
+Soft Equality
+Hard Equality
+Number.isNaN()
+		Always use hard equality when testing if two values are equal.
+	Inequality
+		Soft inequality operator (!=)
+		Hard inequality operator (!==)
+		Use the hard inequality operator as this will give more reliable results
+	Greater Than and Less Than
+		Use the (>) operator to check if a value is greater than another
+		Use the (>) operator to check if a value is less than another
+		Use (>=) operator to check if a value is greater than or equal to another
+		Use (<=) operator to check if a value is less than or equal to another
+
+
+Chapter 3 – Arrays, Logic, and Loops
+	Arrays – Not primitive values but a special built-in object
+		Is an ordered list of values
+		To create an array literal, simply write a pair of square brackets. Preferred
+			Example: const myArray = [ ];
+		Or use an array constructor function.
+			Example: const myArray = new Array( );
+	Initializing an Array
+		Const heroes = [ ];
+
+	Adding Values to Arrays
+		heroes[0] = ‘Superman’;
+		heroes[1] = ‘Wonder Woman’;
+		heroes[2] = ‘Flash’;
+		heroes[5] = ‘Aquaman’;
+	Creating Array Literals
+		Const avengers = [‘Captain America’, ‘Iron Man’ , ‘Thor’, ‘Hulk’];
+	Removing Values from Arrays
+		Delete avengers[3];
+	Destructuring Arrays
+		const [x,y] = [1,2];
+
+Array Properties and Methods
+	Use the length property to find the length of an array
+		Example: avengers.length;
+	The length property can be used as part of the index to find the last item in an array
+		Example: avengers [avengers.length -1];
+	The length property is mutable, meaning you can manually change it
+		Example: avengers.length = 8;
+If you make the array shorter than it already is, all the extra elements will be removed completely.
+	Example: avengers.length = 3;
+
+Pop, Push, Shift, and Unshift
+	The pop() method will remove the last item from an array.
+		Example: avengers.pop();
+The shift() method works in a similar way to the pop() method, but this removes the first item in the array.
+	Example: avengers.shift();
+
+The push() method appends a new value to the end of the array.
+	Example: avengers.push(‘Thor’);
+The unshift() method is similar to the push() method, but this appends a new item to the beginning of the array.
+	Example: avengers.unshift(‘Captain America’);
+
+Merging Arrays
+	The concat() method can be used to merge an array with one or more arrays.
+The spread operator is three dots, (. . . ) that are placed in front of an array, with the effect of spreading out the elements of that array. This can be used to spread the elements of two arrays and put them together in a new array.
+
+The join() Method
+The join() method can be used to turn the array into a string that comprises all the items in the array, separated by commas.
+	Example: avengers.join();
+		  Avengers.join(‘ & ‘);
+Slicing and Splicing
+The slice() method creates a subarray; effectively chopping out a slice of an original array, starting at one position and finishing at another.
+		Example: avengers.slice(2,4);
+	The splice() method removes items from an array then inserts new items in their place.
+		Example: avengers.splice(3, 1, ‘Scarlet Witch’);
+	This is a destructive operation as it changes the value of the array.
+The first number in the parentheses tells us the index at which to start the splice, the second number tells us how many items to remove from the array. Every value after this is then inserted into the array in the same place the other items were removed.
+Values can be inserted without removing any items by indicating that zero items are to be removed.
+The splice() method is a particularly flexible method as it can be used to insert and removed values from an array.
+
+Reverse
+	The reverse() method is used to reverse the order of an array.
+		Example: avengers.reverse();
+Sort
+	Use the sort() method to sort the order of an array.
+		Example: avengers.sort();
+	Note: this changes the order of the array permanently.
+This can be fixed using a callback, which is a function that is passed as an argument to the sort() method when it is called.
+Finding if a Value is in an Array
+Use indexOf() method to find if an array contains a particular value. If the item is in the array, it will return the index of the first occurrence of that item.
+	Example: avengers.indexOf(‘Iron Man’);  <<3
+If the item is not in the array, it will return -1.
+The includes() method returns a Boolean value depending on whether the array contains a particular element or not.
+	Example: avengers.includes(‘Iron Man’);  << true
+Multidimensional Arrays
+	An array of arrays could be used to create a coordinate system.
+		Example: const coordinates = [[1,3],[4,2]];
+To access the values in a multidimensional array, use two indices: one to refer to the item’s place in the outer array, and one to refer to its place in the inner array
+		Example: coordinates[0][0]; // the first value of the first array
+coordinates[1][0]; // the first value of the second array
+coordinates[0][1]; // the second value of the first array
+coordinates[1][1]; // the second value of the second array
+Use the spread operator to flatten multi-dimensional arrays, this involves removing all nested arrays so all the values are on the same level in the array.
+	Example: const summer = [‘Jun’, ‘Jul’, ‘Aug’];
+		   const winter = [‘Dec’, ‘Jan’ , ‘Feb’];
+		   const nested = [summer, winter ];
+		<<[ [ ‘Jun’, ‘Jul’, ‘Aug’ ], [‘Dec’, ‘Jan’, ‘Feb’ ]]
+		   Const flat = [. . .summer, . . .winter];
+		<<{ ‘Jun’, ‘Jul’, ‘Aug’, ‘Dec’, ‘Jan’, ‘Feb’ ]
+
+Sets
+A set is a data structure that represents a collection of unique values, so it cannot include any duplicate values. They are similar in concept to a mathematical set, but don’t contain mathematical set operations like, union, intersection and product.
+Sets offer a useful way to keep track of data without having to check if any values have been duplicated.
+
+Creating Sets
+	Use the (new) operator and Set() constructor;
+		Example: const list = new Set();
+Adding Values to Sets
+	Use the add method to place values into a set.
+		Example: list.add(1);
+			   List.add(2).add(3).add(4); Adds multiple items
+Set Methods
+	Use the size() method to find the number of values in a set.
+	has() method can be used to check if a value is in a set, returns boolean value.
+Removing Values from Sets
+delete() method is used to remove a value from a set, returns Boolean value, true if removed and false if couldn’t remove.
+clear() method is used to remove all values from a set.
+	Converting Sets to Arrays
+		Place the set along with the spread operator directly inside an array literal
+Example: const shoppingSet = new Set().add(‘Apples’).add(‘Bananas’).add(‘Beans’);
+shoppingSet
+<< Set { ‘Apples’, ‘Bananas’, ‘Beans’ }
+Const shoppingArray = [. . .shoppingSet]
+shoppingArray
+<< [ ‘Apples’, ‘Bananas’, ‘Beans’ ]
+		Array.form() method can also be used to convert a set into an array.
+
+Q: Why would you use WeakSet()
+
+Maps
+	A convenient way of keeping a list of key and value pairs.
+	Are similar to ‘hashes’, or ‘ hash tables’ or ‘dictionaries’ in other programming languages
+•	Objects are limited to using strings for key values, whereas maps can use any data type as a key.
+•	There is no efficient way to find the number of key-value pairs an object has, whereas this is easy to do with maps using the size property.
+•	Objects have methods that can be called (see Chapter 5) and prototypes that can be used to create a chain of inheritance (see Chapter 12), whereas maps are solely focused on the storage and retrieval of key-value pairs.
+•	The value of an object's properties can be accessed directly, whereas maps restrict you to using the get() method to retrieve any values.
+
+Creating Maps
+	Use the new operator and Map() constructor:
+		Example: const romanNumerals = new Map();
+
+Adding Entries to Maps
+Use the set() method to add a key and value pairs, first value is the key and the second is the value.
+	Example: romanNumerals.set(1, ‘I’);
+	<< Map { 1 => ‘I’ }
+Add multiple items by repeatedly calling the set() method.
+	Example: romanNumerals.set(2, ‘II’).set(3,’III’).set(4,’IV’);
+
+Map Methods
+	get() method to look up a value.
+		Example: romanNumerals.get(4);   << ‘IV’
+	has() method can be used to check if a particular key is in a map. Returns boolean
+		Example: romanNumberals.has(5);  << true
+	Use a nested array as a parameter to create a map with multiple values.
+Example: const heroes = new Map([ [ ‘Clark Kent’ , ‘Superman’] , [ ‘Bruce Wayne’ , ‘Batman’] ]);
+	size property allows you to query the number of keys and value pairs in a map.
+		Example: heroes.size  <<2
+
+Removing Entries From Maps
+	delete() method is used to remove a key and value pair from a map
+	Boolean value of is returns
+•	True if value removed
+•	False if value wasn’t in the map
+To delete a specific value, specify the key in parentheses
+	Example: heroes.delete(‘Clark Kent’);  << true
+Clear() method removes all key and value pairs from a map
+	Example: heroes.clear();
+
+Converting Maps to Arrays
+Use either the spread operator or the Array.form() method to convert maps into a nesed array of key-value pairs.
+	Example: [. . .ramonNumerals] – spread operator 
+		<< [ [ 1, ‘I’ ], [2. ‘II’ ], [3, “III’]]
+	Example: Array.form(romanNumerals) – Array.form() method
+		<< [ [ 1, ‘I’], [ 2, ‘II’ ], [ 3, ‘III’] ]
+
+Weak Maps
+	new operator is used with the WeakMap() constructor
+		Example: const weak = new WeakMap();
+	has(), get(), set() and delete() methods can be used.
+Weak maps and sets are useful for optimizing memory usage and avoiding memory leaks, but are limited, they don’t have access to all the methods.
+
+Logic
+if Statements – runs the block of code if the statement is true other was displays an error message.
+		Has the following structure:
+			if (condition) {
+			// code to run if condition is true
+			}
+	Else Statement – adds an alternative block of code to run if the condition is false.
+			if ( condition ) {
+			// code to run if condition is true
+			} else {
+			// code to run if condition is false
+			}
+
+Ternary Operator 
+Is a shorthand way to write an if . . . else statement
+? takes three operands in the following format
+Example: condition ? (// code to run if condition is true) : (// code to run if             condition is false)
+
+Switch Statement
+	Use when there are lots of conditions to test
+		Example: switch (number) {
+case 4:
+		console.log(‘You rolled a four’);
+		break;
+		case 5:
+		console.log(‘You rolled a five’);
+		break;
+		case 6:
+		console.log(‘You rolled a size);
+		break;
+		}
+
+Loops – will repeat a piece of code over and over again according to certain conditions.
+
+	While Loops – repeats the block while to condition is true
+		while (condition) {
+		// do something
+		}
+Infinity Loops – a while loop needs to met a condition at some point, if not the code will get stuck in an infinity loop that could possibly crash the program.
+
+do . . . while Loops – similar to a while loop, however, the condition comes after the block of code.
+	do {
+		do something
+	} while (condition)
+This means the block of code will always run at least once, regardless if the condition is true or not.
+
+For Loops – Most common type of loop.
+	for (initialization ; condition ; after) {do something }
+The initialization code is run before the loop starts and usually initialize any variables used in the loop.
+The condition has to be satisfied for the loop to continue
+The after code is what to do after each iteration of the loop
+This is usually used to increment a counter of sorts.
+	Example: for (let bottles = 10 ; bottles > 0 ; bottles - -) {
+Console.log(‘There were ${bottles} green bottles, hanging on a wall. And if one green bottle should accidentally fall, there’d be ${bottles-1} green bottles hanging on the wall’);
+}
+	Nested for Loops - placing a loop inside another loop
+
+	Looping over Arrays 
+		A for loop can be used to iterate over each value in an array.
+Make sure the value of the initial counter in the for loop starts at zero.
+Use max to initialize the length of the array.
+The condition becomes i < max
+Example: for (let i = 0, max = avengers.length; i < max; i++){
+console.log(avengers[ I ]);
+	for of Loop – replaces all the set-up of a “for” loop with a variable(value)
+		for(const value of avengers) {
+		console.log(value);	
+
+	Looping Over Sets -  Sets are enumerable
+		Const letters = new Set(‘hello’);
+		for(const letter of letters) {
+		   console.log(letter);
+	}
+	Looping Over Maps – Map are enmerable
+Will iterate over each key-value pain in the same order as they were added to the map.
+	Example: const romanNumerals = new Map ();
+	romanNumerals.set(1, ‘I’).set(2, ‘II’).set(3, ‘III’);
+Every map object has a key() method lets us iterate over each key with the following for-of loop
+	for (const key of romanNumerals.keys()) {
+	console.log(key);
+	}
+The value() method can be done in a similar way, replacing the word key with value(values).
+Both keys and values can be access together using the entries() method.
+	for(const [key,value] of RomanNumerals.entries()) {
+	console.lot(`${key} in Roman numerals in ${value}`);
+
+
+Chapter 4 – Functions
+	Defining a Function
+		Function Declaration
+			Function literal – use function
+				Example: function hello() {
+				console.log(‘Hello World’);
+				}
+		Function Expressions
+			const goodbye = function() {
+			console.log(‘Goodbye World!’);
+			}
+
+	Function() Constructors – not recommended to declare functions this way
+		Const hi = new Function(‘console.log(“Hi World!”);’);
+
+Invoking a Function – run the code inside the function’s body
+	To invoke a function, enter its name followed by parentheses.
+		Example: hello();
+
+DRY principle – Don’t Repeat Yourself
+Return Values
+
+Parameters and Arguments
+	Any parameters a function needs are set when the function is defined.
+When a function is invoked, it is provided with arguments.
+
+Variable Numbers of Arguments
+	rest operator
+		example: function rest (. . .args) {
+		return args;
+		}
+Improved Mean Function
+Use the rest parameter to improve the mean function, so it accepts any number of values.
+	Example: function mean(. . . values) {
+		let total = 0;
+		for (const value of values) {
+			total += value;
+		}
+		Return total/value.length;
+}
+Default Parameters
+Are values that will be used by the function if o arguments are provided when it is invoked.
+	Example: function hello(name=’World’) {
+		Console.log(‘Hello ${name}!);
+	}
+The default can be overridden by specifying an argument.
+Default parameters should always come after non-default parameters, otherwise default values will always have to be entered.
+	Example: function discount (price, amount = 10) {
+		Return price*(100-amount)/100;
+		}
+
+		Arron Function
+			Identified by the ‘arrow’ symbol =>
+			Parameters come before the arrow
+			Main body of the function comes after the arrow
+			Are always anonymous, must be assigned to a variable
+			Advantages over declaring functions:
+•	They are much less verbose than normal function declarations.
+•	Single parameters don't need putting into parentheses.
+•	The body of the function doesn't need placing inside a block if it's only one line.
+•	The return keyword isn't required if the return statement is the only statement in the body of the function.
+•	They don't bind their own value of this to the function (we'll see why this is a particularly useful property when we cover objects later in the book).
+
+Single parameters don’t need to go inside parentheses
+	Example: const square = x => x*x;
+Multiple parameters need to go inside parentheses.
+	Example: const add = (x,y) => x + y;
+If no parameters are needed then empty parentheses must go before the arrow.
+	Example: const hello = ( ) => alert (‘Hello World’);
+Longer functions will still require curly braces to deliminate the body of the function and the return keyword at the end.
+	Example: const tax = (salary) => {
+		const taxable = salary – 8000;
+		const lowerRate = 0.25 * taxable;
+		taxable = taxable – 20000;
+		const higherRate = 0.4 * taxable;
+		return lowerRate + higherRate;
+		}
+
+		Function Hoisting
+			They can be invoked before they have been defined.
+			All functions can be place together at the end of a program.
+		
+		Variable Hoisting
+Variables that use the var keyword are automatically moved to the top of the current scope. 
+A variable assigned at the end of a function will have a value of undefined until the assignment is made.
+Best to use const and let to declare any variables at the beginning of a block so hoisting is unnecessary.
+
+Callbacks
+	A function that is passed as an argument to another is known as a callback.
+		Example: function sing(song, callback) {
+			console.log (`I’m singing along to ${song}. `);
+			callback( );
+			}
+			function dance( ) {
+			console.log (“I’m moving my body to the grove.”);
+			}
+			sing(‘Let It Go’, dance);
+			<< ‘I’m singing along to Let It Go.’
+			‘I’m moving my body to the groove.’
+Write an anonymous function – only useful for one-off tasks. Better idea to keep functions separated and named so they can be reused. 
+Example: sing ( ‘Let It Go’, ( ) => { console.log (“I’m standing on my head.”);});
+<< ‘I’m singing along to Let It Go.’
+I’m standing on my head.’
+
+Sorting Arrays With A Callback
+	Use the callback function to sort an array of numerical values
+	Tells it how to compare two values.
+•	A negative value if a comes before b
+•	0 if a and b are equal
+•	A positive value if a comes after b
+Example: function numerically ( a, b ) {
+	return a-b;
+	}
+Now this function can be used with the sort( ) method
+Example: [ 1, 3, 12, 5, 23, 18, 7 ].sort (numerically);
+<< [ 1, 3, 5, 7, 12, 18, 23 ]
+
+Array Iterators
+	forEach( ) method
+This will loop through the array and invoke a callback function using each value as an argument.
+The callback function takes 3 parameters
+	First represents the value in the array
+	Second represents the current index
+	Third represents the array that the callback is being called on.
+		Example: colors.forEach ( ( color, index ) =>
+			console.log (`Color at position ${index} is ${color}` ) );
+		<< “Color at position 0 is Red”
+		     “Color at position 1 is Green”
+		     “Color at position 2 is Blue”
+	map( ) method
+		Iterates over the array
+Takes a callback function as a parameter that is invoked on each item in the array.
+Often used to process data returned from a database in array form, such as adding HTML tags to plain text.
+Returns a new array that replaces each value with the return value of the callback function.
+	Example: 
+	['red','green','blue'].map( color => `<p> ${color.toUpperCase()}</p>` );
+<< ['<p>RED</p>', '<p>GREEN</p>', '<p>BLUE</p>']
+Common for callbacks to only use the first, index, parameter.
+	Example shows all three parameters being used:
+	['red','green','blue'].map( (color, index, array) => `Element ${index} is ${color}. There are ${array.length} items in total.` );
+<< [ 'Element 0 is red. There are 3 items in total.',
+'Element 1 is green. There are 3 items in total.',
+'Element 2 is blue. There are 3 items in total.' ]
+
+Reduce( ) method
+	Iterates over each value in the array
+	Cumulatively combines each result to return just a single value.
+Callback functions is used to describe how to combine each value of the array with the running total.
+Used to calculate statistics, such as averages, from data stored in an array.
+Usually takes 2 parameters
+First parameter represents the accumulated value of all the calculations so far.
+Second parameter represents the current value in the array.
+			Example: [ 1, 2, 3, 4, 5 ].reduce ( ( acc, val ) => prev + val );
+			<< 15
+
+	Filter( ) method
+Returns a new array that only contains items from the original array that return true when passed to the callback.
+
+Chaining Iterators Together
+Chaining works because the iterator function returns an array, which means that another iterator function can then be chained on to the end and it will be applied to the new array.
+	Example: [1, 2, 3].map ( x => x*x ).reduce ( ( acc, x ) => acc + x);
+	<< 14
+	Example: const sales = [ 100, 230, 55 ];
+totalAfterTaxSales = sales.map ( ( amount ) => amount * 1.15 ) .reduce ( ( acc, val) => acc + val );
+		<< 442.75
+
+Improving the mean( ) function
