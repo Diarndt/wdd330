@@ -1,0 +1,934 @@
+Diane Arndt
+Brother Gedeborg
+WDD 330
+September 30, 2022
+
+https://github.com/Diarndt/wdd330
+
+Week 3 Notes:
+The JavaScript language – Objects: the basics
+	Object Methods, “this”
+		Example: let user = {
+			name: “John”,
+			age: 30
+		};
+			user.sayHi = function( ) {
+			alert(“Hello!”);
+		};
+			user.sayHi( ); //Hello!
+
+		Method Shorthand
+			Example: 
+			user = {
+			   sayHi( ) { //same as “sayHi: function( ) { . . . }”
+				alert(“Hello”);
+			   }
+			};
+
+		“this” in methods
+			this.name
+		“this” is not bound
+this can be used in any function, even if it’s nnot a method of an object.
+
+		Calling without an object: this = = undefined
+			Example: function sayHi ( ) {
+					alert(this);
+				}
+				sayHi( ); //undefined
+
+		The consequences of unbound this
+In JavaScript “this” is free, its value is evaluated at call-time and does not depend on where the method was declared, but rather on what object is ”before the dot”.
+			Has pluses and minuses
+1.	A function can be reused for different objects – plus
+2.	The greater flexibility creates more possibilities for mistakes – minus
+
+Arrow functions have no “this”
+	Arrow functions don’t have their own this.
+	If “this” is referenced it is taken from the outer “normal” function
+		Example: let user = {
+				firstName: “Ilya”,
+				sayHi( ) {
+				     let arrow = ( ) => alert (this.firstName);
+				     arrow( );
+				}
+			};
+			user.sayHi( ); //Ilya
+
+Summary
+•	Functions that are stored in object properties are called “methods”.
+•	Methods allow objects to “act” like object.doSomething().
+•	Methods can reference the object as this.
+The value of this is defined at run-time.
+•	When a function is declared, it may use this, but that this has no value until the function is called.
+•	A function can be copied between objects.
+•	When a function is called in the “method” syntax: object.method(), the value of this during the call is object.
+Please note that arrow functions are special: they have no this. When this is accessed inside an arrow function, it is taken from outside.
+
+JavaScript: Novice to Ninja, 2nd Edition
+Chapter 5 – Objects
+	Object Literals
+		An object is a self-contained set of related values and functions
+They act as a collection of named properties that map to any JavaScript value.
+If a property’s value is a function, it is known as a method.
+More flexible, can be employed to encapsulate code that can be reused throughout a program.
+Can inherit properties from other objects in a similar way to object-oriented languages.
+Often used to keep any related information and functionality together in the same place.
+	A Super Example
+An object literal is an object that is created directly in the language by wrapping all its properties and methods in curly braces.
+Allow objects to be created quickly without the need for defining a class.
+Provide a useful way of organizing your code without polluting the global namespace.
+Each property is a key-value pair, separated by commas.
+If a property’s name doesn’t follow the rules for naming variables, it needs to be quoted. ie: ‘real name’. Which could also be real_name or realName.
+All objects are mutable at any time when a program is running, its properties and methods can be changed or removed, and new properties and methods added to the object, even if it was declared using const.
+	Example:
+	const superman = {
+		name: ‘Superman’,
+		‘real name’: ‘Clark Kent’,
+		height: 75,
+		weight: 235,
+		hero: true,
+		villain: false,
+		allies: [‘Batman’, ‘Supergirl’, ‘Superboy’],
+		fly( ) {
+			return ‘Up, up and away!’;
+		}
+	};
+
+Creating Objects
+	To create an object literal, simply enter a pair of curly braces.
+Example: const spiderman = { } – creates an empty object that is assigned to the variable spiderman.
+
+Accessing Properties
+Access the properties of an object using the dot notation, this will return the value of that property.
+	Example: superman.name
+		<< ‘Superman’
+You can also access an object’s properties using bracket notation.
+	Example: superman [‘name’]
+		<< ‘Superman’
+Dot notation is more common, but bracket notation has a few advantages.
+•	It’s the only way to access nonstandard property and method names that don’t follow the variable naming rules.
+•	It also lets you evaluate an expression and use it as the property key.
+
+Computed Properties
+JS code can be placed inside square brackets and the property key will be the return value of that code.
+Example: 	const hulk = { name: ‘Hulk’, [‘catch’ + ‘Phrase’]: ‘Hulk Smash!’ };
+Each symbol has a unique value, which means that using them as property keys avoids any naming clashes, if the same value is mistakenly used for two different property keys.
+
+Calling Methods
+Dot or bracket notations can be used to call an object’s method, this is the same as invoking a function, so parentheses need to be placed after the method name.
+	Example:	superman.fly( )
+			<< ‘Up, up and away!’
+			Superman[‘fly’] ( )
+			<< ‘Up, up and away!’
+
+Checking if properties or Methods Exist
+The ‘in’ operator can be used to check whether an object has a particular property.
+Example: 	‘city’ in superman;
+		<< false
+Or, you can check if the property or method doesn’t return ‘undefined’
+Example:	superman.city !== undefined;
+		<< false
+Use the ‘hasOwnProperty( ) method, this can be used to check whether an object has a property that is its own, rather than one that has been inherited from another object.
+Example: 	superman.hasOwnProperty(‘city’);
+		<< false
+		Superman.hasOwnProperty(‘name’);
+		<< true
+
+Finding all the Properties of an Object
+	Use a ‘for in’ loop to loop through all of an object’s properties and methods.
+	Example: to log all the properties of the superman object to the console use.
+		for( const key in superman) {
+			console.log(key + “: “ + superman[key]);
+		}
+		<< “name: Superman”
+		<< “real name: Clark Kent”
+		<< “height: 75”
+		<< “weight: 235”
+		<< “hero: true”
+		<< “villain: false”
+		<< “fly: function ( ) {
+			console.log(\”Up, up and away!\”);
+		}”
+
+You can also create a variable called ‘key’. Iterate over the properties of the object and use the ‘key’ to log the property name and ‘key’ to look up the value of each property.
+Example: 	for(const key in superman) {
+			if(superman.hasOwnProperty(key)) {
+				console.log(key + “: “ + superman[key]);
+			}
+		}
+
+The ‘object.keys( )’ will return an array of all the keys of an object that is provided as an argument. Then iterate over this array to access all the keys of an object.
+Example: 	for (const key of Object.keys(superman)) {
+		console.log (key);
+		}
+		<< name
+		     real name
+		     height
+		     weight
+		     hero
+		     villain
+		     allies
+		     fly
+or ES2017	for (const value of Object.values(superman)) {
+		console.log(value);
+		}
+		<< Superman
+		     Clark Kent
+		     75
+		     235	
+		     true
+		     false
+		     [ ‘Batman’, ‘Supergirl’, ‘Superboy’ ]
+		     [Function: fly]
+Object.entries( ), part of ES2017, returns an array of key-value pairs, which are returned in arrays, but can be destructured and accessed individually.
+Example: 	for(const [key, value] of Object.entries(superman)) {
+		console.log(`${key}: ${value}`);
+		}
+	<<	name: Superman
+		real name: Clark Kent
+		height: 75
+		weight: 235
+		hero: true
+		villain: false
+		allies: [ ‘Batman’, ‘Supergirl’, ‘Superboy’ ]
+		fly: [Function: fly]
+
+Adding Properties
+	New properties and methods can be added to objects at any time.
+	Simply assign a value to the new property
+	Example: 	superman.city = ‘Metropolis’;
+			<< ‘Metropolis’
+Note: Properties don’t always appear in the order they were entered. An object is not an ordered list like an array, set or map, don’t rely on the properties being in a certain order.
+
+	Changing Properties
+Use assignment to change the value of any object’s properties at any time.
+superman[‘real name’] = ‘Kal-El’;
+<< ‘Kal-El’
+
+
+Removing Properties
+	Use the ‘delete’ operator to remove any property from an object.
+	Example:	delete superman.fly
+			<<true
+
+Nested Objects
+	Objects can contain other objects.
+	Example: 	const jli = {
+				superman: { realName: ‘Clark Kent’ } ,
+				batman: { realName: ‘Bruce Wayne’ },
+				wonderWoman: { realName: ‘Diana Prince’ },
+				flash: { realName: ‘Barry Allen’ },
+				aquaman: { realName: ‘Arthur Curry’ },
+			}
+To access the values in nested objects, reference each property name in order using either dot or bracket notation.
+Example: 	jla.wonderWoman.realName
+		<< “Diana Prince”
+		Jla.aquaman [‘realName’]
+		<< “Arthur Curry”
+
+Objects as Parameters to Functions
+	Object literals can be passed as a parameter to a function.
+	Example: 	function greet ({greeting, name, age}) {
+return `${greeting}! My name is ${name} and I am ${age} years old.`;
+			}
+named parameters – is often used when a function has a large amount of optional parameters.
+‘this’
+	Refers to an object that it is withing.
+	Can be used inside methods to gain access to the object’s properties
+	Example: 	const dice = {
+				sides: 6
+				roll( ) {
+					return Math.floor(this.sides * Math.random( )) +1;
+				 }
+			}
+
+Namespacing
+	Use object literal patterns to create a namespace for groups of related functions.
+Create an object literal that serves as the namespace, add any values as properties of that object and functions as methods.
+Example: 	const myMaths = {
+			square(x) {
+				return	x * x;
+		},
+			mean(array, callback) {
+				if (callback) {
+				array.map( callback );
+			}
+			const total = array.reduce ((a, b) => a + b);
+			return total/array.length;
+			}
+		};
+
+
+
+Built-in Objects
+	JSON – JavaScript Object Notation, or JSON
+		Is a string representation of the object literal notation.	
+		Key Differences:
+1.	Property names must be double-quoted
+2.	Permitted values are double-quoted strings, numbers, true, false, null, arrays and objects
+3.	Functions are not permitted values
+
+Example: - the Caped Crusader
+Const batman = ‘{“name”: “Batman”, “real name”: “Bruce Wayne”, “height” : 74, “weight” : 210, “hero” : true, “villain” : false, “allies” : [“Robin”, Batgirl”, “Superman”]}
+	Increasing popular as a data storage format.
+	
+	parse( ) method takes a string of data in JSON format and returns a JS object.
+	Example: 	JSON.parse(batman);
+			<< { name: ‘Batman’,
+			‘real name: ‘Bruce Wayne’,
+			height: 74,
+			weight: 210,
+			hero: true,
+			villain: false,
+			allies: [ ‘Robin’, ‘Batgirl’, ‘Superman’ ] }
+
+	stringify( ) method takes a JS object and returns a string of JSON data.
+	Example:	const wonderWoman = {
+			Name: ‘Wonder Woman’,
+			‘real name’: ‘Diana Prince’,
+			height: 72,
+			weight: 165,
+			hero: true,
+			villain: false,
+			allies: [‘Wonder Girl’, ‘Donna Troy’, ‘Superman’],
+			lasso: function( ) {
+				console.log(‘You will tell the truth!’);
+			}
+	JSON.stringify(wonderWoman);
+	<<  ‘{“name: “Wonder Woman”, “real name”: “Diana Prince”, “height”: 72, “weight”: 165, “hero”: true, “villain”: false, “allies”: [“Wonder Girl”, “Donna Troy”, “Superman”] }’
+Note: the lasso method is ignored by the stringify( ) method.
+	Add a space argument to add a new line between each key-value pair.
+	Example: JSON.stringify(wonderWoman, null, " ");<<  '{\n "name": "Wonder Woman",\n "real name": "Diana Prince",\n "height": 72,\n "weight": 165,\n "hero": true,\n "villain": false,\n "allies": [\n  "Wonder Girl",\n  "Donna Troy",\n  "Superman"\n ]\n}'
+JSON data is easy to exchange between different services.
+
+
+The “Math” object
+Built-in object that has several properties representing mathematical constants as well as methods that carry out a number of common mathematical operations.
+	Math objects are immutable and unable to be changed
+
+	Mathematical Constants
+		Math.PI – The ratio of the circumference and diameter of a circle
+		Math.SQRT2 – The square root of 2
+		Math.SQRT1_2 – The reciprocal of the square root of 2
+		Math.E – Euler’s constant
+		Math.LN2 – The natural logarithm of 2
+		Math.LN10 – The natural logarithm of 10
+		Math.LOG2E – Log base 2 of Euler’s constant
+		Math.LOG10E – Log bas 10 of Euler’s constant
+
+	Mathematical Methods
+		Absolute Values
+Math.abs( ) – returns the absolute value of a number. Positive remains positive, negative becomes positive.
+		Rounding Methods
+Math.ceil( ) – rounds a number up to the next integer, or remains the same if it already an integer.
+Math.floor( ) – rounds a number down to the next integer, or remains the same if it is already an integer.
+Math.round( ) – rounds a number to the nearest integer
+Math.trunc( ) – returns the integer-part of a number – it gets truncated at the decimal point. 4.9 << 4, -4.2 << -4
+		Powers and Roots
+			Math.exp( ) – will raise a number to the power of Euler’s constant
+Math.pow( ) – will raise any number to the power of another number. (3,2); << 9, (4.5, 0); << 1 (Any number to the power of 0 is 1.
+Math.sqrt( ) – returns the positive square root of a number
+Math.cbrt( ) – returns the cube root of a number
+Math.hypot( ) – returns the square root of the sum of the squares of all its arguments. Can be used to calculate the hypotenuse of a right-angled triangle.
+		Logarithmic Methods
+			Math.log( ) – returns the natural logarithm of a number
+				Math.log2	
+				Math.log19
+		Maximum & Minimum Methods
+			Math.max( ) – returns the maximum number from its arguments
+Math.min( ) – returns the minimum number from the given arguments.
+		Trigonometric Functions – useful when working with geometrical objects.
+All angels are measured in radians for these functions.
+			Math.PI
+Math.sin( ) – returns the sine of an angle
+			Math.cos( ) – returns the cosine of an angle.
+			Math.tan ( ) – returns the tangent of an angle
+			Math.asin( ) – returns the arcsine of a number
+			Math.acos( ) – returns the arccosine of a number
+			Math.atan( ) – returns the arctangent of a number
+		Methods for hyperbolic functions
+			Math.sinh( )
+			Math.asinh( )
+			Math.cosh( )
+			Math.acosh( )
+			Math.tanh( )
+			Math.atanh( )
+
+		Random Numbers
+			Math.random( ) – is used to create random numbers.
+			Math.floor( ) – generates a random integer
+
+
+
+The Date Object
+Contains information about dates and times, each object represents a single moment in time.
+
+Constructor Function – is used to create a new date object using the “new” operator
+	example: const today = new Date();
+	use the toString() method to see what the date is.
+	today.toString();
+Note: computer programs start counting at zero, so January is 0.
+
+The Epoch is 1st January 1970.
+
+Getter Methods – return information about the date object, such as the month and year.
+getTime( ) – returns a timestamp representing the number of milliseconds since t	the Epoch
+	getTimezoneOffset( )
+	getYear( )
+Don’t have UTC equivalents.
+
+UTC is the primary time standard by which the world regulates clocks.
+	getDay( )
+	getUTCDay( )
+are used to find the day of the week that the date object falls on, it returns a number starting at 0 for Sunday and 6 for Saturday.
+	getMonth( )
+	getUTCMonth( )
+returns an integer
+	getFullYear( )
+	GetUTCFullYear( ) – returns the year of the date object
+	getHours( )
+	getUTCHours( )
+	getMinutes( )
+	getUTCMinutes( )
+	getSeconds( )
+	getUTCSeconds( )
+	getMilliseconds( )
+	getUTCMilliseconds( )
+getTimezoneOffset( ) – returns the difference, in minutes, between the local time on the computer and UTC.
+
+Setter Methods – Can be used to change the value of the date held in a ‘Date’ object.
+	setHours( )
+	setUTCHours( )
+	setMinutes( )
+	setUTCMinutes( )
+	setSeconds( )
+	setUTCSeconds( )
+	setMilliseconds( )
+	setUTCMilliseconds( )
+If you know the date as a timestamp, you can use the setTime( ) method
+
+The RegExp Object – is a pattern that can be used to search strings for matches to the pattern. A common use is ‘find and replace’ type operation.
+
+Creating Regular Expressions
+Example:	const pattern = new RegExp(‘[a-zA-z] + ing’);
+	RegExp Methods
+		const language = ‘JavaScript’;
+		const pattern = new RegExp(language);
+	Use ‘test( )’ method to see if the sting matches the regular expression pattern.
+		pattern.test(‘joke’);
+		<< false
+		pattern.test(‘joking’);
+		<< true
+		pattern.test(‘jokingly’);
+		<< false
+The exec( ) method works the same way as the test( ) method, but returns an array containing the first match found or null if there aren’t any matches.
+
+Character Groups – can be placed inside square brackets, represents any one of the characters inside the brackets.
+Example: 	const vowels = /[aeiou]/
+		<< /[aeiou]/
+		/[A-Z}/
+		/[0-9}/
+		/[^A-Z]/ - ^ represents any character that is not a capital letter
+
+	Regular Expression Properties
+•		he global property makes the pattern return all matches. By default, the pattern only looks for the first occurrence of a match.
+•	The ignoreCase property makes the pattern case-insensitive. By default, they are case sensitive.
+•	The multiline property makes the pattern multiline. By default, a pattern will stop at the end of a line.
+The following flags can be placed after a regular expression literal to change the default properties:
+•	g sets the global property to true
+•	i sets the ignoreCase property to true
+•	m sets the multiline property to true
+
+Special Characters - metacharacters
+•	. matches any character, except line breaks
+•	\w matches any word character, and is equivalent to [A-Za-z0-9_]
+•	\W matches any non-word character, and is equivalent to [\^A-Za-z0-9_]
+•	\d matches any digit character, and is equivalent to [0-9]
+•	\D matches any non-digit character, and is equivalent to [^0-9]
+•	\s matches any whitespace character, and is equivalent to [ \t\r\n\f]
+•	\S matches any non-whitespace character, and is equivalent to [^ \t\r\n\f]
+
+Modifiers
+•	? makes the preceding token in the regular expression optional
+•	* matches one or more occurrences of the preceding token
+•	+ matches one or more occurrences of the preceding token
+•	{n} matches n occurrences of the preceding token
+•	{n,} matches at least n occurrences of the pattern
+•	{,m} matches at most m occurrences of the preceding token
+•	{n,m} matches at least n and at most m occurrences of the preceding token
+•	^ marks the position immediately before the first character in the string
+•	$ marks the position immediately after the last character in the strin
+Greedy and Lazy Modifiers
+	Greedy modifiers match the longest possible string
+	Lazy modifiers match the shortest possible string by adding an extra ‘?’ after the modifier.
+
+A Practical Example
+	
+String Methods
+split( ) method can accept a regular expression that used a split a string into the separate elements of an array.
+Example: ‘Hello World!’ .split(/\s+/)
+match() method returns an array of all the matches, by default only the first is returned.
+Example: ‘JavaScript’ .match(/[aeiou]/); - returns the first vowel
+g flag is used to return all the matches
+Example: ‘JavaScript’ .match(/[aeiou]/g); - returns an array of all the vowels
+search( ) method returns the position of the first match
+Example: “I’m learning JavaScript” .search(/java/i);
+-1 is returned if there is no match.
+replace( ) method replaces any matches with another string.
+Example: ‘JavaScript’ .replace(/[aeiou]/ig,’*’);
+
+Matched Groups
+Sub-patterns can be created inside a regular expression by placing then inside parentheses. Known as capturing groups. Any matches will be stored in an array of matches.
+
+
+
+Chapter 6
+The Document Object Model
+	What is the DOM?
+Document Object Model (DOM) – represents a HTML document as a network of connected nodes that form a tree-like structure.
+Treats everything on a web page as a node.
+
+The DOM Tree
+ 
+	History of the DOM
+		DOM Level 0 or legacy DOM
+		DOM Level 1 created in 1998
+		DOM Level 2 published in 2000
+		DOM level 3 published in 2004
+		DOM Level 4
+
+	An Example Web Page
+		Below is a node tree diagram for the <ul> element with a class of roster:
+ 
+The DOM also stores any whitespace that is in the HTML document as text nodes.
+
+	Getting Elements
+The DOM provides several methods that allow us to access any element on a page. 
+Methods will return a node object or a node list, which is an array-like list object.
+Objects can be assigned to a variable and be inspected or modified.
+Enter the following code into the browser console to access the ‘body’ element and assign it to the variable ‘body’.
+	const body = document.body;
+Check its type
+	Typeof body;
+	<< “object”
+Use the ‘nodeType’ property to find our what type of node
+	body.nodeType;
+	<< 1
+All nodes have a numerical code to signify what type they are.
+Code	Type
+1	element
+2	attribute
+3	text
+8	comment
+9	body
+
+		You can also use the nodeName property to find the name of the element.
+			body.nodeName;
+			<< “BODY”
+
+	Legacy DOM Shortcut Methods – DOM level 0
+		Methods that can still be employed to access commonly used elements
+•	Document.body returns the body element of a web page, as we saw in the previous example.
+•	Document.images returns a node list of all the images contained in the document.
+•	Document.links returns a node list of all the <a> elements and <area> elements that have an href attribute.
+•	Document.anchors returns a node list of all the <a> elements that have a name attribute.
+•	Document.forms returns a node list of all the forms in the document. This will be used when we cover forms in Chapter 8.
+Document.images[0] will return the first image in the node list of all the images in the document.
+The length property, can be used to iterate through every element using a for loop.
+Example: for (let i=0; I < document.images.length; i++) {
+//do something with each image using document.images[i]
+}
+Node lists don’t have any other array methods.
+Use either the Array.form method
+	const imageArray = Array.form(document.images);
+or the spread operator to turn a node into an array
+	const imageArray = [. . .document.images];
+All the array methods can be used, once the node list has been turn into an array
+
+	Getting An Element By Its ID
+getElementBy Id( ) method does exactly what it says. Returns a reference to the element with a unique id attribute that is given as an argument.
+Example: const h1 = document.getElementById(‘title’);
+Every id attribute should be unique to just one element.
+If no element exists with the ID provided, null is returned
+
+	Get Element By Their Tag Name
+getElementByTagName( ) will return a live node list of all the elements with the tag name that is provided as an argument.
+Example, this code will provide all the list items in the document. If there is no element in the document with the given tag name, an empty node list is returned.
+	const listItems = document.getElementByTagName(‘li’);
+
+
+Since this is a node list, the index notation can be used to find each individual paragraph in the list.
+	listItems[0];
+<< <li class='hero'>Superman</li>
+
+listItems[1];
+<< <li class='vigilante hero' id='bats'>Batman</li>
+
+listItems[2];
+<< <li class='hero'>Wonder Woman</li>
+
+	Get Element By Their Class Name
+getElementsByClassName( ) will return a live node list of all elements that have the class name that is supplied as an argument.
+	const heroes = document.getElemenstByClassName(‘hero’);
+This will return a collection of all elements with the class of ‘hero’.
+If there are no elements with the given class, an HTML collection is still returned, but it will have a length of 0.
+	Document.getElementsByClassName(‘villain’).length
+	<< 0
+	Query Selectors
+document.querySelector( ) method allows you to use CSS notations to find the first element in the document that matches a CSS selector provided as an argument. If no elements match, it will return null.
+Document.querySelectorAll( ) method also uses CSS notations, but returns a node list of all the elements in the document that match the CSS query selector. If no elements match, it will return an empty node list.
+CSS pseudo-selectors can also be used to pinpoint a particular element.
+	const wonderWoman = document.querySelector(‘li:last-child’);
+
+The querySelector( ) method can be called on any element, rather than just document.
+	const ul = document.querySelector(‘ul#roster’);
+	
+	Navigating the DOM tree
+The childNodes property is a list of all the nodes that are children of the node concerned.
+This Example returns all the child nodes of the element with an id attribute of roster.
+const heroes = document.getElementById('roster');
+heroes.childNodes
+<< NodeList [#text "
+", <li class="hero">, #text "
+", <li id="bats">, #text "
+", <li class="hero">, #text "
+", <li class="hero">, #text "
+
+Note: the childNodes property returns all the nodes that are children of an element. This includes any text nodes, since whitespace is treated as a text node, there will often by empty text nodes.
+Note: This is only supported by IE from version 9 onwards.
+		firstChild property returns the first child node
+		lastChild property returns the last child node.
+		parentNode property returns the parent node of an element.
+nextSibling property returns the next adjacent node of the same parent and will return null if the node is the last child of that parent.
+previousSibling property returns the previous adjacent node and will return null if the node is the first child of that parent.
+	
+	
+
+Finding the Value of a Node
+		To find the nodeValue you first need to have a reference to the text node.
+			Const textNode = wonderWoman.firstChild;
+			<< “Wonder Woman”
+			textNode.nodeValue;
+			<< “Wonder Woman”
+You can also find the value using the textContent property which will return the text content of an element as a string.
+			wonderWoman.textContent
+			<< “Wonder Woman”
+
+Getting and Setting Attributes
+	Getting An Element’s Attributes
+getAttribute( ) method returns the value of the attribute provided as an argument. If an element does not have the given attribute null is returned.
+	wonderWoman.getAttribute(‘class’);
+	<< “hero”
+	wonderWoman.getAttribute(‘src’);
+	<< null
+
+Setting An Element’s Attributes
+	setAttribute can change the value of an element’s attributes.
+	It takes two arguments
+		The attribute that you wish to change
+		The new value of that attribute
+	setAttribute method can be used to add an attribute to the element.
+		wonderWoman.setAttribute(‘id’, ‘amazon’);
+		wonderWoman.getAttribute(‘id;);
+		<< ‘amazon’
+	Dot Notation
+		Legacy DOM allows access to attributes using dot notation.
+			wonderWoman.id;
+			<< ‘amazon’
+
+Classes Of An Element
+	The className Property
+className property allows the class of an element to be set directly, it can also be used to find out the value of the class attribute.
+	wonderWoman.className;
+	<< “villain”
+Change the class back to ‘hero
+	wonderWoman.className = ‘hero’
+	<< “hero”
+Use the classList property instead of the className property to avoid any problems like overwriting.
+
+	The classList Property
+classList property is a list of all the classes an element has. It has a number of methods that make it easier to modify the class of an element.
+Use the add method to add a class to an element without overwriting any classes that already exist.
+	wonderWoman.classList.add(‘warrior’);
+Use the remove method to remove a specific class from an element.
+	wonderWoman.classList.remove(‘warrior’);
+The toggle method is a particularly useful method that will add a class if an element doesn’t have it already, and remove the class if it does have it. It returns true if the class was added and false if it was removed.
+	wonderWoman.classList.toggle(‘hero’); //will remove the class
+	<< false
+	wonderWoman.classList.toggle(‘sport’); //will add the class
+	<< true
+
+The contains method will check to see if an element has a particular class
+	wonderWoman.classList.contains(‘hero’);
+	<< true
+	wonderWoman.classList.contains(‘villain’);
+	<< false
+
+	Creating Dynamic Markup
+		Creating An Element
+createElement( ) method takes a tag name as a parameter and returns that element.
+	const flash = document.createElement(‘li’);
+		
+		Creating a Text Node
+			Use the document.createTextNode( ) method to create a text node.
+It takes a parameter, which is a string containing the text that goes in the node.
+	const flashText = document.createTextNode(‘Flash’);
+
+		Appending Nodes
+appendChild( ) method will add another node(given as an argument) as a child node.
+	flash.appendChild(flashText);
+
+the process to follow each time you want to create a new element with text content is this:
+1.	Create the element node
+2.	Create the text node
+3.	Append the text node to the element node
+const flash = document.createElement(‘li’);
+flash.textContent = ‘Flash’;
+
+		A Function To Create Elements
+			function createElement (tag, text) {
+				const el = document.createElement(tag);
+				el.textContent = text;
+				return el
+			}
+	
+		Try creating another new list item element
+			const aquaman = createElement(‘li’, ‘Aquaman’);
+
+	
+		Adding Elements to the Page
+			heroes.appendChild(flash);
+The appendChild method is useful to add a new element to the bottom of a list.
+insertBefore( ) method will place a new element before another element in the markup. This method is called on the parent node.
+	It takes two parameters
+		First the new node to be added
+		Second the node that you want it to go before
+	heroes.insertBefore(aquaman, wonderWoman);
+
+		
+Remove Elements From a Page
+The removeChild( ) method can be used to remove an element from a page.
+	heroes.removeChild(aquaman);
+	<< <li>Aquaman</li>
+	
+		Replacing Elements on a Page
+The replaceChild( ) method ca be used to replace one node with another.
+Called on the parent node
+Has two parameters
+	const h1 = document.getElementById(‘title’);
+	const oldText = h1.firstChild;
+const newText = document.createTextNode(‘Justice League of America’);
+	h1.replaceChild(newText,oldText);
+
+		innerHTML
+innerHTML element property was standardized as part of the HTML5.
+Returns all the child elements of an element as a string of HTML.
+	heroes.innerHTML
+	<< “
+		<li class = \”hero\”>Superman</li>
+		<li class = \”vigilante hero\” id=\”bats\”>Batman</li>
+		<li class = \”hero\”>Wonder Woman</li>
+		“
+innerHTML property is also writable and can be used to place a chunk of HTML inside an element.
+	h1.innerHTML = ‘Suicide Squad’;
+Instead of creating each element and text node individually, simply enter the raw HTML as a string.
+Heroes.innerHTML = ‘<li>Harley Quinn</li><li>Deadshot</li><li>Killer Croc</li><li>Enchantress</li><li>Captain Boomerant</li><li>Katana</li><li>Slipknot</li>;
+This will remove all the child elements of the <ul> element and replace them with the string of HTML that was provided.
+Note: Scripts inserted using innerHTML won’t run.
+		
+		Live Collections
+Nodes lists returned by the document.getElementByClassName() and document.getElementByTagName( ) methods are live collections that will update to reflect any changes on the page.
+Their use is discouraged for performance reasons.
+	
+	Updating CSS
+		Every element node has a style property
+		Add a red border to an element.
+			const heroes = document.getElementById(‘roster’);
+			const superman – heroes.children[0];
+			superman.style.boarder = “red 2px solid”;
+			<< “red 2px solid”
+	
+		Camel Case Properties
+Any CSS property names that are separated by dashes must be written in camelCase notation, dash is removed and the next letter is capitalized.	
+			Dashes are not legal characters in property names.
+			Example: background-color = backgroundColor
+		
+		Disappearing Act
+			The display property is a particularly useful CSS property.
+display property can be used to make elements disappear and reappear on the page as needed.
+Example: superman.style.display = ‘none’;
+	<< “none”
+Make the element reappear by changing the display to block.
+Example: superman.style.display = ‘block’;
+	<< “block”
+		
+		Checking Style Properties
+style property can also be used to see what CSS styles have been set on an element.
+Only applies to inline styles and styles set using JS, excludes styles from external stylesheets.
+getComputedStyle( ) function will retrieve all the style information of an element that is given as a parameter. Read-only property, only used for finding out information about the style of an element.
+Example: getComputedStyle(superman);
+	<<CSSStyleDeclaration {0: “alt”, 1: “animation-delay”, 2: “animation-direction”, 3: “animation-duration”, 4: “animation-fill-mode”, 5: “animation-iteration-court”, 6: “animation-name”, 7: “animation-play-state”, 8: “animation-timing-function”, 9: “background-attachment”,  …}
+The return is a CSSStyleDeclaration object that contains a list of property-value pairs.
+For information on a single element use the following.
+Example: getComputedStyle(superman).getPropertyCSSValue(‘color’).cssText;
+<< “rgb(0,0,0)”
+Note: some browsers, such as Chrome, do not allow access to the methods of a CSSStyleDeclaration object such as getPropertyCSSValue( ), attempting to use will result in an error.
+
+		Use with Caution
+Better practice to dynamically change the class of an element and keep the relevant styles for each class in a separate stylesheet.
+				Better alternative:
+					superman.classList.add(‘highlighted’);
+				Add the following to a separate CSS stylesheet file.
+					.highlighted {
+						Border: red 2px solid;
+					}
+			Gives more flexibility.
+Chapter 6 Summary
+•	The Document Object Model is a way of representing a page of HTML as a tree of nodes.
+•	The document.getElementById(), document.getElementsByClassName(), document.getElementsByTagNames() and document.querySelector() can be used to access elements on a page.
+•	The parentNode(), previousSibling(), nextSibling(), childNodes() and children() methods can be used to navigate around the DOM tree.
+•	An element’s attributes can be accessed using the getAttribute() method, and updated using the setAttribute() method.
+•	The createElement() and createTextNode() methods can be used to create dynamic markup on the fly.
+•	Markup can be added to the page using the appendChild() and insertBefore() methods.
+•	Elements can be replaced using the replaceChild() method, and removed using the removeChild() method.
+•	The innerHTML property can be used to insert raw HTML directly into the DOM.
+•	The CSS properties of an element can be changed by accessing the style property.
+
+Chapter 7 – Events
+	Event Listeners
+Event listener will let the program know when an event happens and the program can then respond appropriately. The program will continue with other tasks while it waits for the event to happen.
+JS uses a non-blocking approach that uses event listeners to listen out for any clicks on the page. 
+A callback function is called every time the page is clicked.
+Example: document.body.addEventListener(“click”, dosomething);
+The dosomething function will be called when any part of the page is clicked on.
+
+Note: The click event occurs when a user clicks with the mouse, presses the Enter key, or taps the screen, making it a very useful all-round event covering many types of interaction.
+
+	Inline Event Handlers
+Original way was to use inline attributes that were added directly into the markup.
+Example: < p onclick = “console.log(‘You Clicked Me!’)”>Click Me</p>
+This is not recommended for a number or reasons, best to avoid.
+•	The JavaScript code is mixed up with the HTML markup, breaking the concept of unobtrusive JavaScript, which advocates that JavaScript code should be kept out of the HTML.
+•	Only one event handler for each event-type can be attached to an element.
+•	The code for the event handlers is hidden away in the markup, making it difficult to find where these events have been declared.
+•	The JavaScript code has to be entered in a string, so you need to be careful when using apostrophes and quote marks.
+
+Older Event Handlers
+	Use the event handler properties that all node objects have.
+These can be assigned to a function that is invoked when the event occurs.
+Example: document.onclick = function ( ){ console.log (‘You clicked on the page!’);}
+This is well supported and works in almost all browsers.
+Has restrictions that only one function can be used for each event.
+
+	Using Event Listeners
+Recommended way of dealing with events, and the current standard, is to use event listeners.
+addEventListener( ) method is called on a node object.
+Example: document.body.addEventListener(‘click’, doSomething);
+The addEventListener( ) method can also be called without a node, in which case it is allpied to the global object, usually the whole browser window.
+First parameter is the type of event
+Second parameter is a callback function that is invoked when the event occurs.
+A Third parameter can also be used.
+Example – adding a click event listener to the whole page, because the addEventListener method is called without a node reference preceding it. And using an anonymous function as the callback.
+	addEventListener(‘click’, ( ) => alert(‘You Clicked’));
+
+
+Example Code
+
+The Event Object
+	Types of Events
+		type property returns the type of event that occurred.
+	
+The Event Target
+		Target property returns a reference to the node that fired the event
+	
+	Coordinates of an Event
+		Variety of ways to find the position of where a mouse event occurs.
+screenX and screenY properties show the numberof pixels from the left and top of the screen where the event took place. 
+clientX and clientY properties show the number of pixels from the left and top of the client that is being used.
+pageX and pageY properties show the number of pixels from the left and top where the event took place in the document.
+
+Types of Events
+	Mouse Events
+		click event
+		mousedown event – occurs before a click event is fired
+		mouseup event – occurs before a click event is fired
+	dbclick event – occurs when the user double clicks on the element to 	which the event listener is attached
+
+caution – be cautious of attaching both a click and doubleclick event to the same element. 
+
+mouseover event occurs when the mouse pointer is placed over the element to which the event listener is attached.
+mouseout event occurs when the mouse pointer moves away from an element.
+mousemove event occurs whenever the mouse moves. It will only occur while the cursor is over the element to which it applies.
+
+	Keyboard Events
+		keydown
+		keypress
+		keyup
+When a user presses a key, the events occur in that order. They are not tied to any particular key, although the information about which key was pressed in a property of the event object.
+1.	The keydown event occurs when a key is pressed and will continue to occur if the key is held down.
+2.	The keypress event occurs after a keydown event but before a keyup event. The keypress event only occurs for keys that produce character input (plus the 'Delete' key). This means that it’s the most reliable way to find out the character that was pressed on the keyboard.
+3.	The keyup event occurs when a key is released.
+
+Modifier Keys
+Shift, Ctrl, Alt and meta are modifier keys and will fire the keydown and keyup events but not the keypress event.
+
+Touch Events
+	touchstart event occurs when a user initially touches the surface.
+Caution – touchstart event listener could prevent other events from happening, click event is often a much safer option as it still fires when the screen is touched, but there is a slight delay of 300ms, allowing the user to perform another action with the device.
+		touchend event occurs when a user stops touching the surface.
+touchmove event occurs after a user has touched the screen then moved around without leaving, it will continue to occur as lon as the user is still touching the screen.
+touchenter event occurs when a user has already started touching the surface, but then passes over the element to which the event listener is attached.
+touchleave event occurs when the user is still touching the surface, but leaves the element to which the listener is attached.
+touchcancel event occurs when a touch event is interrupted, such as a user’s finger moving outside the document window.
+
+Note: there is no ‘swipe’ events. These need to be created by using a combination of touchstart, touchmove, and touchleave events that monitor the distance and direction moved from start to finish of a touch event.
+
+	Touch Event Properties
+touches property – a list of touch objects that represents all the touches taking place on that device.
+Has a length property that tells you how many touch points are in contact with the surface.
+Touch objects can be accessed using index notations.
+Example: events.touches.length
+
+Caution – use the touch events with caution, they are complex and difficult to implement, many of the properties and methods are still marked as experimental and not widely implemented in browsers.
+
+Removing Event Listeners
+	removeEventListener( ) method can be used to remove an event listener.
+
+
+Stop Default Behavior
+preventDefault( ) method is a method of the event object that can be used inside the callback function to stop the default behavior happening.
+	Example: <p>
+			<a id = ‘broken’ href = ‘https://sitepoint.com’>Broken Link </a>
+		    </p>
+		
+		const brokenLink = document.getElementById('broken');
+brokenLink.addEventListener('click',(event) => {    event.preventDefault();
+console.log('Broken Link!');
+});
+This will stop the page redirecting to the page specified in the href attribute and show a message in the console.
+
+Event Propagation
+	The order that the events fire on each element. 
+	2 forms of event propagation
+		bubbling
+		capturing
+Bubbling is when he event fires on the element clicked on first, the bubbles up the document tree, firing an event on each parent element until it reaches the root node.
+Capturing starts by firing an event on the root element, the propagates downwards, firing an event on each child element until it reaches the target element that was clicked on.
+
+
+Note: the capturing model was originally implemented by Netscape, and the bubbling model was implemented in Microsoft browsers back in the Browser Wars. The W3C sensibly came down in the middle and allowed developers to decide which method they prefer to use.
+
+Event Delegation
+Can be used to attach an event listener to a parent element in order to capture events that are triggered by its child elements.
+Attach the event listener to the parent <ul> element, then use the target property to identify the element that was clicked on.
+Example: ulElement.addEventListener(‘click’, highlight);
+
+
+
+
+
+	
+
+
+
+
