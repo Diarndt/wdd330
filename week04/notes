@@ -1,0 +1,574 @@
+Diane Arndt
+Brother Gedeborg
+WDD 330
+October 7, 2022
+
+https://github.com/Diarndt/wdd330
+
+Week 4 Notes:
+
+Chapter 8 – Forms
+Forms
+<form> element contains form controls such as input fields, select menus and buttons.
+
+Accessing Form Elements
+	Legacy DOM
+		const form = document.forms[0];
+		is equivalent to using the following method
+		const form = document.getElementByTagname(‘form’)[0];
+		or use the name attribute to identify a form
+		const form = document.forms.search;
+to avoid any problems with using the above, use square brackets instead of a dot.
+const form = document.form[‘search’];
+The elements method returns an HTML collection of all the elements contained in the form.
+	const [input,button] = form.elements;
+form controls can also be accessed using the ‘name’ attribute
+	const input = form.searchInput
+	the square bracket notation can also be used
+	const input = form[ ‘searchInput’ ]
+
+Form Properties and Methods
+Have a number of useful properties and methods that can be used to interact with the form.
+form.submit( ) method will submit the form automatically, however, this method won’t trigger the form submit event.
+Forms can be submitted manually with a button or input element with a type attribute of submit, or even an input element with a type attribute of image
+	Example: 
+		<button type = ‘submit’ > Submit </button>
+		<input type = ‘submit’ > value = ‘Submit’>
+		<input type = ‘image’ src = ‘button.png’>
+
+form.reset( ) method will reset all the form controls back to their initial values specified in the HTML.
+A button with the type attribute of reset can also be used to reset the form controls w/o the need for additional scripting.
+	Example:
+		<button type = ‘reset’ >Reset</button>
+However, reset buttons are generally considered poor for usability.
+
+form.action property can be used to set the action attribute of a form, so it’s sent to a different URL to be processed.
+	Example: 
+		form.action = ‘/an/other.url’
+	
+
+
+
+
+		Form Events
+			focus event occurs when an element is focused on.
+				Example: 
+					Const input = form.elements.searchInput;
+Input.addEventListenener(‘focus’, ( ) => alert(‘focused’), false);
+			
+blur event occurs when the user moves the focus away from the form element.
+
+change event occurs when the user moves the focus away from the form element after changing it.
+		
+		Submitting a Form
+submit event occurs when the form is submitted. The form is usually sending the content of the form to a server to be processes, however, a submit event listener can be used to intercept the form before being sent to the server.
+Example:
+	const form = document.forms[‘search’];
+	form.addEventListener (‘submit’, search, false);
+	function search ( ) {
+		alert(‘Form Submitted’);
+	}
+preventDefault( ) method will stop the form from being submitted altogether.
+Example:
+	function search(event) {
+		alert(‘Form Submitted’);
+		event.preventDefault( );
+	}
+		Retrieving and Changing Values From a Form
+Text input element objects have a value property that can be used to retrieve the text inside the field. This can be used to report what the user has searched for.
+Example:
+	function serach(event) {
+		alert(`You Searched for: ${input.value}`);
+		event.preventDefault( );
+	}
+
+		Form Controls
+			Some common types of form controls
+•	<input> fields, including text, passwords, check boxes, radio buttons, and file uploads
+•	<select> menus for drop-down lists of options
+•	<textarea> elements for longer text entry
+•	<button> elements for submitting and resetting forms
+
+New Attributes in HTML5
+	autofocus attribute gives focus to this element when a page loads.
+placeholder attribute will insert the value provided in the input field until the user enters some text.
+maxlength attribute will limit the number of characters that can be entered in the field to the value given.
+
+
+
+	
+	Input Fields
+		The most common types of form control.
+		
+		Text Input Fields
+			text is the default type of input field, type = ‘text’.
+		
+		Password Input Field
+input type = ‘password’ is used to enter passwords or secret information. Characters are concealed as they are entered so they are unable to be read on the screen.
+
+
+		Checkbox Input Fields
+type = ‘checkbox’ are used to select different options that can be checked or left unchecked.
+
+		Radio Button Input Field
+type = ‘radio’ allow users to check an option as ‘true’, but they provide an exclusive choice of options, so only one option can be selected.
+
+		Hidden Input Fields
+type = ‘hidden’ are not displayed by the browser, but can have a ‘value’ attribute that can contain information that is submitted with the form. 
+Often used to send information such as setting or information that the user has already provided.
+This information in these fields is in no way secret, it is visible in the HTML, so shouldn’t be used for sensitive data.
+
+
+		File Input Fields
+			type = ‘file’ are used to upload files.
+
+		Other Input Types
+			number, tel, color
+number input fields also have optional ‘min’ and ‘max attributes to limit the input given.
+‘step’ attribute is used to specify how much the value changes by each click.
+
+		Select Drop-Down List
+Select drop-down lists can be used to select one or more options from a list of values, ‘multiple’ attribute is required if more than one option is to be selected.
+
+		Text Area
+<textarea> element is used to enter long pieces of text over multiple lines such as a comment or blog post.
+Example: 
+	<label for = ‘origin’> Origin Story:
+<textarea id = ‘origin’ name = ‘origin’ rows = ‘20’ cols = ‘60’> </testarea>
+				</label>
+
+		Buttons
+			submit and reset.
+			Example:
+				<button type=’reset’> Reset</button>
+There is also a type of ‘menu’ that can be combined with <menu>, <menuitem> and <li> tags to create a dropdown menu when it’s clicked on.
+	I Need a Hero!
+		Form Validation
+			Checking whether a user has entered the information correctly.
+•	A required field is completed
+•	An email address is valid
+•	A number is entered when numerical data is required
+•	A password is at least a minimum number of characters
+
+		
+Disabling the Submit Button
+	A submit button can be disabled by adding the disabled attribute to the <input> element.
+	Example: 
+	<button type = ‘submit’ id = ‘submit’ disabled>Submit</button>
+	The following will disable the button if an input field is empty:
+	Function disableSubmit(event) {
+		if (event.target.value = = = ‘’) {
+			document.getElementById(‘submit’).disable = true;
+		}else {
+			document.getElementById(‘submit’).disable = false;
+		}
+	}
+
+
+
+
+
+
+
+Chapter 12 – Object-Oriented Programming
+	Encapsulation - 
+	Polymorphism – various objects can share the same method.
+Inheritance – take an object that already exists and inherit all its properties and methods.
+Classes
+Prototype-based language – before ES6 – used actual objects as the blueprint for creating more objects.
+ES6 now supports classes, however, it still uses this prototypal inheritance model in the background.
+Constructor Functions – a function that defines the properties and methods of an object.
+The word ‘this’ is used to represent the object that will be returned by the constructor function.
+Each new object that’s created using this function will inherit the properties and methods defined in the function.
+
+Easiest way to create a new object is to use the literal syntax.
+	Example: const literalObject = { };
+	Or	constructedObject = new Object( );
+It is recommended to always use literals to create arrays.
+	Example: const literalArray = [1,2,3];
+
+
+
+
+
+
+
+
+ES6 Class Declarations
+Example: 
+Class Dice {
+	constructor(sides = 6) {
+		this.sides = sides;
+	}
+	roll( ) {
+		Return Math.floor(this.sides * Math.random( ) + 1)
+	}
+}
+The names of constructor functions or class declaration are capitalized.
+The ES6 class declarations are preferable to the constructor functions syntax because they are more succinct, easier to read and all code in a class definition is implicitly in strict mode, so doesn’t need the ‘use strict’ statement.
+
+The Constructor Property – returns the constructor function that created it.
+Use the constructor property to instantiate a copy of an object, without needing to reference the actual constructor function or class declaration directly.
+Example:
+	const greenDice = new redDice.constructor(10);
+	greenDice instanceOf Dice
+
+Static Methods
+The static keyword can be used in class declarations to create a static method, sometimes called class methods in other programming languages. 
+A static method is called by the class directly rather than by instances of the class.
+
+
+
+Prototypal Inheritance
+	Every class has a prototype property that is shared by every instance of the class.
+	
+The Prototype Property
+All classes and constructor functions have a prototype property that returns an object.
+	Turtle.prototype;
+	<< Turtle { }
+All instances of the Turtle class share all the properties and methods of its prototype. 
+They can call any methods of the prototype and access any of its properties.
+
+Finding Out the Prototype
+	Recommended to use the getPrototypeOf()
+	Example: Object.getPrototypeOf(raph);
+	<< Turtle { attack: [Function], weapon: ‘Hands }
+
+Own Properties and Prototype Properties
+hasOwnProperty( ) method can be used to check if a method is its own property, or is inherited from the prototype.
+Example: raph.hasOwnProperty(‘name’);
+	<< true
+	raph.hasOwnProperty(‘weapon’);
+	<< false
+
+The Prototype Is Live!
+It is not possible to overwrite the prototype by assigning it to a new object literal if class declarations are used.
+It is possible if constructor functions are used, it can cause a lot of headaches if your accidentally redefine the prototype.
+
+Overwriting Prototype Properties
+An object instance can overwrite any properties or methods inherited from its prototype by simply assigning a new value. These properties became an ‘own property’ of the instance object. Any own properties will take precedence over the same prototype property when used in methods
+Example:
+	leo.weapon = ‘Katana Blades’;
+	<< ‘Katana Blades’;
+
+What Should the Prototype Be Used For?
+	To add any new properties and methods after the class has been declared.
+	To define any properties that will remain the same for every instance of the class.
+Methods are likely to be the same for all instances of a constructor, so it’s fine to add methods to the prototype
+
+Golden Rule: Never use arrays or objects as a default value in prototype.
+
+To summarize, the following points should be considered when using classes and prototypes to create instances:
+•	Create a class declaration that deals with any initialization, shared properties and methods.
+•	Any extra methods and properties that need to be augmented to the class declaration after it’s been defined can be added to the prototype. These will be added to all instances, even those that have already been created.
+•	Add any properties or methods that are individual to a particular instance can be augmented using assignment to that object (a mixin could be used to add multiple properties at once, as we’ll see later).
+•	Be careful when overwriting the prototype completely ― the constructor class needs to be reset.
+
+Public and Private Methods
+	By default, an object’s methods are public in JS.
+Methods and properties are said to be public because they can be queried directly and changed by assignment.
+Use the concept of variable scope to keep some properties and methods private inside of a class declaration. This will prevent them from being accessed or changed.
+Provide a getter method to return the values of any private properties.
+Example:
+	class Turtle {
+		constructor(name,color) {
+			this.name = name;
+			let _color = color;
+			this.setColor = color => { return _color = color; }
+			this.getColor = ( ) => _color;
+		}
+	}
+The getter and setter methods form a closure over the variable and provide controlled access to the property.
+
+Inheritance
+	The Prototype Chain
+		
+
+
+
+
+The Object Constructor
+	Enumerable Properties
+	Inheritance Using ‘extends’
+		Example: class NinjaTurtle extends Turtle {
+				constructor(name) {
+					super(name);
+					this.weapon = ‘hands’;
+				}
+				attack( ) return `Feel the power of my ${this.weapon}!` }
+				}
+
+Inside the child class declaration, the keyword ‘super’ refers to the parent class, and can be used to access any properties and call any methods of the parent class.
+
+	
+Polymorphism – different objects can have the same method, but implement it in different ways.
+	The toString( ) method is a good demonstration of polymorphism.
+
+Adding Methods to Built-in Objects
+monkey-patching – is mostly frowned upon in the JS community, despite it being an incredible powerful technique.
+
+
+
+
+
+
+
+Property Attributes and Descriptors
+	Objects that contains values of each attribute.
+All object properties have the following attributes stored in a property descriptor:
+•	value ― This is the value of the property and is undefined by default
+•	writable ― This boolean value shows whether a property can be changed or not, and is false by default
+•	enumerable ― this boolean value shows whether a property will show up when the object is displayed in a for in loop, and is false by default
+•	configurable ― this boolean value shows whether you can delete a property or change any of its attributes, and is false by default.
+The disadvantage with this is that it can only be used to set the value attribute of the property.
+
+Getting and Setting Property Descriptors
+	Getters and Setters
+An object property descriptor can have ‘get( )’ and ‘set( )’ methods instead of a value attribute. 
+		All objects must have one or the other, they can’t have both.
+‘get( )’ and ‘set( )’ methods can be used to control how a property is set using assignment and the value that is returned when a property is queried.
+Allow much more fine-grained control over how assignment works and we can change the way assignment works.
+Use ‘get( )’ method to return anything we like.
+The get and set property descriptors are particularly useful for controlling the getting and setting of properties in classes.
+
+
+
+Creating Objects from Other Objects
+The ‘Object( )’ constructor function has a method called ‘create’ that can be used to create a new object that is an exact copy of the object that is provided as an argument.
+
+Object-Based Inheritance
+	‘super-class’
+
+Object Prototype Chain
+	Creating objects from objects will create a prototype chain.
+
+Mixins
+A way of adding properties and methods of some objects to another object without using inheritance.
+Allows more complex objects to be created by ‘mixing’ basic objects together.
+Basic mixin functionality is provided by the ‘Object.assign( )’ method. This will assign to the object provided as the first argument all of the properties from any objects provided as further arguments.
+If any of the properties being mixed in are arrays or nested objects, only a shallow copy is made.
+When a hard copy is changed, the original remains the same.
+When a shallow copy is changed, the original changes too.
+
+Using Mixins to Add Properties
+One use for the mixin( ) function is to add large number of properties t oan object all at once.
+
+
+
+
+
+Using Mixins to Create a ‘copy( )’ Function
+Create a ‘copy( )’ method that can be used to make an exact, deep copy of an object.
+The ‘mixin( )’ function is used to add all the properties and methods of the object to this new object, making an exact copy of itself.
+
+Factory Functions
+	Is a function that can be used to return an object.
+
+Using the Mixin Function to Add Modular Functionality
+Lets us encapsulate properties and methods in an object, then add them to other objects without the overhead of an inheritance chain being created.
+
+Chaining Functions
+If a method returns ‘this’, its methods can be changed together to form a sequence of method calls that are called one after the other.
+Binding ‘this’
+Problem: the value of ‘this’ loses its scope, and points to the global object inside a nested function.
+superman.friends = [batman,wonderWoman,aquaman]
+superman.findFriends = function(){
+    this.friends.forEach(function(friend) {
+        console.log(`${friend.name} is friends with ${this.name}`);
+    }
+    );
+}
+superman.findFriends()
+<<  Batman is friends with undefined
+    Wonder Woman is friends with undefined
+    Aquaman is friends with undefined
+Solutions to ‘this’ problem:
+	Use ‘that = this’- set the variable ‘that’ to equal ‘this’ before the nested function, and refer to ‘that’ in the nested function instead of ‘this’. You might also see self or _this used to maintain scope in the same way
+superman.findFriends = function(){    
+const that = this;   
+ this.friends.forEach(function(friend) {     
+   console.log(`${friend.name} is friends with ${that.name}`); 
+   }    
+);
+}
+superman.findFriends();
+<<  Batman is friends with Superman    
+Wonder Woman is friends with Superman    
+Aquaman is friends with Superman
+
+	Use ‘bind(this)’
+The bind() method is a method for all functions and is used to set the value of this in the function. If this is provided as an argument to bind() while it’s still in scope, any reference to this inside the nested function will be bound to the object calling the original method:
+superman.findFriends = function() {
+    this.friends.forEach(function(friend) {
+        console.log(`${friend.name} is friends with ${this.name}`);
+    }.bind(this);)
+}
+superman.findFriends();
+<<  Batman is friends with Superman
+    Wonder Woman is friends with Superman
+    Aquaman is friends with Superman
+	Use ‘for-of’ Instead Of ‘forEach()’
+the for-of syntax for arrays and this does not require a nested function to be used, so this remains bound to the superman object:
+superman.findFriends = function() {
+    for(const friend of this.friends) {
+        console.log(`${friend.name} is friends with ${this.name}`);
+    };
+}
+
+superman.findFriends();
+<<  Batman is friends with Superman
+    Wonder Woman is friends with Superman
+    Aquaman is friends with Superman
+
+	Use Arrow Functions
+one of the advantages of using them is that they don't have their own this context, so this remains bound to the original object making the function call:
+superman.findFriends = function() {
+    this.friends.forEach((friend) => {
+        console.log(`${friend.name} is friends with ${this.name}`);
+    }
+    );
+}
+
+superman.findFriends();
+<<  Batman is friends with Superman
+    Wonder Woman is friends with Superman
+    Aquaman is friends with Superman
+Borrowing Methods from Prototypes
+It’s possible to borrow methods from objects without having to inherit all their properties and methods. This is done by making a reference to the function that you want to borrow (that is, without parentheses so that it isn’t invoked).
+	we can create a reference to them that can then be used by another object
+Example: create a ‘fly()’ function by referencing the superman object’s ‘fly’ method.
+const fly = superman.fly;<<
+This method can now be called on another object using the ‘call’ method.
+Example:
+	fly.call(batman);
+<< Up, up and away! Batman soars through the air!
+
+Borrowing Array Methods
+The arguments object can use the slice() method from the Array constructor’s prototype by assigning a variable that points to it:
+const slice = Array.prototype.slice;
+This method can then be called on the arguments object using the call() method:
+slice.call(arguments, 1, 3);
+The call() method takes the object that the function is to be applied to as its first argument, then the usual arguments come afterwards.
+The method can also be borrowed directly from an array literal, like so:
+[ ].slice.call(arguments, 1, 3)
+An array-like object can effectively be turned into an array using the slice() method with no arguments:
+const argumentsArray = Array.prototype.slice.call(arguments);
+Most of these techniques are not needed from ES6 onwards as the Array.from() method can be used to turn an array-like object into an array:
+const argumentsArray = Array.from(arguments);
+
+Alternatively, the spread operator can be used to easily turn an array-like object into an array like so:
+const argumentsArray = [...arguments];
+
+Composition Over Inheritance
+Composition over inheritance sees objects as building blocks that go together to make other objects rather than classes that are monolithic structures layered on top of each other.
+There are also some problems that come with inheritance.
+This approach advocates creating small objects that describe single tasks or behaviors and using them as the building blocks for more complex objects.
+ These single-task objects are easier to test and maintain and can be combined together, using a mixin function, to create more complex objects. 
+If you do decide to use classes, it’s recommended to make them 'skinny' ― meaning they don't have too many properties and methods. Another good practice when creating classes is to keep inheritance chains short
+A good rule of thumb is to only inherit once, keeping the inheritance chain to just two objects makes unpicking any issues far easier.
+
+
+
+Chapter 15 – Modern JavaScript
+Modular JavaScript - A module is a self-contained piece of code that provides functions and methods that can then be used in other files and by other modules. 
+This helps to keep code organized in separate, reusable files, which improves code maintainability. 
+Coupling: refers to how dependent certain elements or modules of code are on each other.
+It is considered good design to keep code as loosely coupled as possible as this allows for the most flexibility in developing systems of code, as different modules can be used independently and in a variety of different applications, rather than being restricted to a single use-case.
+
+ES6 Modules - allow you to keep parts of code in self-contained files.
+There are a few important points about modules that are worth keeping in mind:
+•	All code in modules is always in strict mode without the need for 'use strict' and there is no way to opt out of this.
+•	A module has its own global scope, so any variables created in the top-level of a module can only be accessed within that module.
+•	The value of this in the top level of a module is undefined, rather than the global object.
+•	You can't use HTML-style comments in modules (although this isn't very common in any JavaScript program these days).
+
+A ES6 module file is just a normal JavaScript file, but uses the keyword export to specify any values or functions that are to be made available from the module. 
+
+A very simple Pi module would have the following code saved in a file called 'pi.js':
+export const PI = 3.1415926;
+This would then be imported into your main JavaScript file, main.js using the following code:
+import { PI } from './pi.js';
+
+Functions can also be exported from a module.
+	create a library for our stats functions that we used earlier:
+	function square(x) {
+    return x * x;
+}
+function sum(array, callback) {
+    if(callback) {
+        array = array.map(callback);
+    }
+    return array.reduce((a,b) => a + b );
+}
+function variance(array) {
+    return sum(array,square)/array.length - square(mean(array))
+}
+function mean(array) {
+    return sum(array) / array.length;
+}
+export {
+    variance,
+    mean
+}
+
+An alternative to using export when the function is defined is to add the export directive after the function definition, as seen in the example above with the variance() function.
+
+To import these functions into the main.js file, you’d add this line of code:
+Copy
+import  { mean, variance } from './stats.js';
+
+You can be selective in which values or functions to import from the module.
+import  { mean } from './stats.js';
+
+If there are lots of values and functions that need to be imported, then everything in a module file can be imported using the wildcard symbol * along with a namespace for the imported values and functions using the following notation:
+import * as stats from './stats.js';
+This will then import all the functions from the stats.js module and they’ll be given a namespace of stats.
+
+Default Exports - refer to a single variable, function or class in a module that can be imported without having to be explicitly named.
+The syntax for default exports is purposely easier to read because this is how modules were designed to be used.
+ how this would be done for a variable:
+	const PI = 3.145926;
+export default PI;
+		
+exporting a single default function:
+			function square(x) {
+   				 return x * x;
+}
+export default square;
+
+ how to export an object as the default value:
+	const stats = {
+   		 square(x) {
+        			return x * x;
+   		 },
+       			 sum(array, callback) {
+       			 if(callback) {
+           			 array = array.map(callback);
+       			 }
+            			return array.reduce((a,b) => a + b );
+       			 },
+
+    	mean(array) {
+        		return this.sum(array) / array.length;
+   	 },
+   	 variance(array) {
+return this.sum(array,this.square)/array.length - this.square(this.mean(array))
+  	  }
+}
+export default stats;
+
+Having more than one default export will result in a syntax error.
+
+To import these default values, use the following code:
+	import PI from './pi.js';
+import square from './square.js';
+import stats from './stats.js';
+
+Node.js Modules
+A Common JS module is created in a separate file, and the module.exports method is used to make any functions available to other files.
+Create a module for squaring numbers using the following code inside a file called squareFunction.js:
+module.exports = x =>  x * x;
+To use the module, it needs to then be required inside the another JS file (or from within the Node REPL). This is done using the require() method.
+This takes the file that contains the module as an argument and returns the function that was exported:
+const square = require('./squareFunction');
+The function that was exported in the module is now assigned to the variable square.
