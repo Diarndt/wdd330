@@ -1,0 +1,584 @@
+Diane Arndt
+Brother Gedeborg
+WDD 330
+October 29, 2022
+
+https://github.com/Diarndt/wdd330
+
+Week 7 Notes:
+Chapter 11 – Further Functions
+	Function Properties and Methods
+		Call and Apply Methods
+The call() method can be used to set the value of this inside a function to an object that is provided as the first argument
+Create some objects that have a name property, then use the call() method to invoke the sayHello() function, providing each object as an argument. This will then take the value of this in the function:
+Example:	const clark = { name: 'Clark' };
+const bruce = { name: 'Bruce' };
+sayHello.call(clark);
+<< 'Hello, my name is Clarke'
+sayHello.call(bruce);
+<< 'Hello, my name is Bruce'
+If the function that’s called requires any parameters, these need to be provided as arguments after the first argument, which is always the value of this.
+Example:	function sayHello(greeting='Hello'){    
+return `${ greeting }, my name is ${ this.name }`
+;}
+sayHello.call(clark, 'How do you do');
+<< 'How do you do, my name is Clark'
+sayHello.call(bruce);
+<< 'Hello, my name is Bruce'
+If a function doesn’t refer to an object as this in its body, it can still be called using the call() method, but you need provide null as its first argument.
+Example:	square.call(null, 4)
+<< 16
+The apply() method works in the same way, except the arguments of the function are provided as an array, even if there is only one argument:
+Example:	square.apply(null, [4])
+<< 16
+
+		Custom Properties
+There is nothing to stop you adding your own properties to functions in the same way that you can add properties to any object in JavaScript. For example, you could add a description property to a function that describes what it does:
+Example: 	square.description = 'Squares a number that is provided as an argument'
+<< 'Squares a number that is provided as an argument'
+	
+	Memorization
+If a function takes some time to compute a return value, we can save the result in a cache property.
+Then if the same argument is used again later, we can return the value from the cache, rather than having to compute the result again.
+We could rewrite the square() function so it saved each result in a cache object that is a property of the function:
+
+
+
+
+
+Example:	function square(x){ 
+square.cache = square.cache || {}; 
+if (!square.cache[x]) { 
+square.cache[x] = x*x;
+}    
+return square.cache[x]
+}
+
+	Immediately Invoked Function Expressions
+An Immediately Invoked Function Expression – or IIFE – (pronounced 'iffy') is an anonymous function that, as the name suggests, is invoked as soon as it’s defined. This is easily achieved by placing parentheses at the end of the function definition (remember we use parentheses to invoke a function). The function also has to be made into an expression, which is done by placing the whole declaration inside parentheses
+Example: 	(function(){
+const temp = 'World';
+console.log(`Hello ${temp}`);
+})();
+<< 'Hello World'
+IIFEs are a useful way of performing a task while keeping any variables wrapped up within the scope of the function. This means the global namespace is not polluted with lots of variable names.
+
+		Temporary Variables
+If a variable is only required temporarily, it may cause confusion if it’s still available later in the code. Even worse, the name of the variable may clash with another piece of code resulting in errors. Placing any code that uses the temporary variable inside an IIFE will ensure it’s only available while the IIFE is invoked, then it will disappear. 
+The example that follows uses an IIFE to swap the value of two global variables, a and b. This process requires the use of a temporary variable, called temp, which only exists while the IIFE is invoked:
+Example:	let a = 1;
+let b = 2;
+(()=>{
+   			 const temp = a;
+    			a = b;
+    			b = temp;
+})();
+
+a;
+<< 2
+
+b;
+<< 1
+
+console.log(temp);
+<< Error: "temp is not defined"
+This shows the variable temp does not exist after the function has been invoked.
+
+Initialization Code
+An IIFE can be used to set up any initialization code that there’ll be no need for again.
+An IIFE will be invoked once, and can set up any variables, objects and event handlers when the page loads. The following example logs a welcome message to the console, then eliminates all the temporary variables used in putting the message together:
+
+
+
+Example:	(function() {
+const name = 'Peter Parker'; // This might be obtained from a cookie in reality
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
+    			const date = new Date(),today = days[date.getDay()];
+    			console.log(`Welcome back ${name}. Today is ${today}`);
+})();
+<< 'Welcome back Peter Parker. Today is Tuesday'
+Note: 	Much of this can be achieved in ES6 by simply placing the code inside a block. This is because variables have block scope when const or let are used, whereas in previous versions of JavaScript, only functions maintained the scope of variables.
+	The example above would work just as well using the following code:
+Example:	{
+const name = 'Peter Parker'; // This might be obtained from a cookie in reality
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
+   			 const date = new Date(),today = days[date.getDay()];
+   			 console.log(`Welcome back ${name}. Today is ${today}`);
+}
+<< 'Welcome back Peter Parker. Today is Tuesday'
+
+Safe Use of Strict Mode
+One of the problems with simply placing 'use strict' at the beginning of a file is that it will enforce strict mode on all the JavaScript in the file, and if you’re using other people’s code, there’s no guarantee that they’ve coded in strict mode.
+To avoid this, the recommended way to use strict mode is to place all your code inside an IIFE, like so:
+
+Example:	(function() {
+   			 'use strict';
+// All your code would go inside this function
+})();
+
+Creating Self-contained Code Blocks
+An IIFE can be used to enclose a block of code inside its own private scope so it doesn’t interfere with any other part of the program. 
+Using IIFEs in this way means code can be added or removed separately.
+The example shows two blocks, A and B, that are able to run code independently of each other:
+Example:	(function() {
+   			 // block A
+    			const name = 'Block A';
+    			console.log(`Hello from ${name}`);
+    			}());
+
+    			(function() {
+   			 // block B
+    			const name = 'Block B';
+   			 console.log(`Hello from ${name}`);
+}());
+<<  Hello from Block A
+   		 Hello from Block B
+Notice that both code blocks include a variable called name, but the modules don’t interfere with each other. This is a useful approach for separating parts of a program into discrete sections, especially for testing purposes.
+Note:	This can be achieved in ES6 by simply placing the different parts of code into blocks. ES6 also supports a much more powerful module pattern that is covered in Chapter 15.
+
+	Functions That Define and Rewrite Themselves
+The dynamic nature of JavaScript means that a function is able to not only call itself, but define itself, and even redefine itself. This is done by assigning an anonymous function to a variable that has the same name as the function.
+Example:	function party(){
+    			console.log('Wow this is amazing!');
+    			party = function(){
+       				 console.log('Been there, got the T-Shirt');
+   			 }
+}
+If the function is also assigned to another variable, this variable will maintain the original function definition and not be rewritten. This is because the original function is assigned to a variable, then within the function, a variable with the same name as the function is assigned to a different function. 
+Lazy Definition Pattern
+Is often used when some initialization code is required the first time it’s invoked. This means the initialization can be done the first time it’s called, then the function can be redefined to what you want it to be for every subsequent invocation.
+	
+		Init-Time Branching
+This technique can be used with the feature detection that we discussed in the last chapter to create functions that rewrite themselves.
+This enables the functions to work more effectively in the browser, and avoid checking for features every time they’re invoked.
+Define a function based on whether certain methods are supported. 
+This means we only need to check for support the first time the function is called:
+Example:	function ride(){
+   			 if (window.unicorn) { 
+       				 ride = function(){
+// some code that uses the brand new and sparkly unicorn methods
+       				 return 'Riding on a unicorn is the best!';
+       				 }
+   			 } else {
+       				 ride = function(){
+       				 // some code that uses the older pony methods
+       				 return 'Riding on a pony is still pretty good';
+       				 }
+   			 }
+    			return ride();
+}
+After we’ve checked whether the window.unicorn object exists (by checking to see if it’s truthy), we’ve rewritten the ride() function according to the outcome. 
+ Right at the end of the function, we call it again so that the rewritten function is now invoked, and the relevant value returned.
+
+
+	Recursive Functions
+A recursive function is one that invokes itself until a certain condition is met.
+It’s a useful tool to use when iterative processes are involved. 
+Example:	function factorial(n) {
+   			 if (n === 0) {
+       				 return 1;
+  		 	 } else {
+       			 	Return n * factorial(n - 1);
+  		 	 }
+}
+This function will return 1 if 0 is provided as an argument (0 factorial is 1), otherwise it will multiply the argument by the result of invoking itself with an argument of one less. The function will continue to invoke itself until finally the argument is 0 and 1 is returned. This will result in a multiplication of 1, 2, 3 and all the numbers up to the original argument.
+
+
+	Callbacks
+		Event-driven Asynchronous Programming
+Callbacks can be used to facilitate event-driven asynchronous programming
+JavaScript is a single-threaded environment, which means only one piece of code will ever be processed at a time.
+A callback can be created that’s invoked when the event happens.
+Code is able to run out of order, or asynchronously. 
+Once the task has been completed, the callback will be invoked before returning to the rest of the program.
+use the setTimeout() function to call the callback after a given number of seconds:
+Example:	function wait(message, callback, seconds){    
+   setTimeout(callback,seconds * 1000); 
+  	   console.log(message);
+}
+
+function selfDestruct(){ 
+   console.log('BOOOOM!');
+}
+Invoke the wait() function then log a message to the console, we can see how JavaScript works asynchronously:
+wait('This tape will self-destruct in five seconds ... ', selfDestruct, 5);
+console.log('Hmmm, should I accept this mission or not ... ?');
+
+<< 'This tape will self-destruct in five seconds ... '
+<< 'Hmmm, should I accept this mission or not ... ? '
+<< 'BOOOOM!'
+Note:	A callback always has to wait for the current execution stack to complete before it’s invoked. 
+
+		Callback Hell
+The increase in the use of asynchronous programming in JavaScript has meant that more and more callbacks are being used.
+This can result in messy and confusing 'spaghetti code'.
+This is when more than one callback is used in the same function, resulting in a large number of nested blocks that are difficult to comprehend.
+Callback hell is the term used to refer to this tangled mess of code.
+	 it's such a common issue that it even has its own website!
+
+Promises
+A promise represents the future result of an asynchronous operation.
+Promises don't do anything that can't already be achieved using callbacks, but they help simplify the process, and avoid the convoluted code that can result from using multiple callbacks.
+The Promise Life Cycle
+•	When a promise is created, it calls an asynchronous operation and is then said to be pending. It remains in this state while the operation is taking place. At this stage, the promise is said to be unsettled. 
+•	Once the operation has completed, the promise is said to have been settled.
+•	A settled promise can result in two different outcomes:
+o	Resolved ― the asynchronous operation was completed successfully.
+o	Rejected ― the asynchronous operation didn’t work as expected, wasn't successfully completed or resulted in an error.
+
+A Super Promise
+There is a pending phase while you wait on the results of an operation. Then once the promise is settled, you deal with the results in an appropriate way ― by using your superpowers if the promise is resolved, or dealing with any problems if it doesn't work out.
+			Creating A Promise
+				A promise is created using a constructor function.
+Takes a function called an executor as an argument. The executor initializes the promise and starts the asynchronous operation.
+It also accepts two functions as arguments:
+the resolve() function is called if the operation is successful
+ the reject() function is called if the operation fails.
+Example: 	General layout of a promise
+		const promise = new Promise( (resolve, reject) => {
+   		 // initialization code goes here
+   			 if (success) {
+       				 resolve(value);
+   			 } else {
+        				reject(error);
+    			}
+});
+			Dealing With A Settled Promise
+Once a promise has been settled, the then() method can be used to deal with the outcome.
+This method accepts two arguments. 
+First is a fulfilment function that’s called when the promise is resolved.
+Any data returned from the resolve() function will be passed along to this function.
+The second argument is a rejection function that’s called if the promise is rejected.
+the rejection function receives any data returned from the reject() function.
+Alternatively, the catch() method can be used to specify what to do if the operation fails.
+The then() and catch() methods can be chained together to form a succinct description of how to deal with the outcome of the promise:
+
+		Chaining Multiple Promises
+If each function that performs an asynchronous operation returns a promise, we can chain the then() methods together to form a sequential piece of code that’s easy to read. Each promise will only begin once the previous promise has been settled.
+Example:	login(userName)
+.then(user => getPlayerInfo(user.id))
+.then(info => loadGame(info))
+.catch( throw error)
+
+Async Functions
+These functions are preceded by the async keyword and allow you to write asynchronous code as if it was synchronous. 
+This is achieved by using the await operator before an asynchronous function. 
+This will wrap the return value of the function in a promise that can then be assigned to a variable.
+The next line of code is not executed until the promise is resolved.
+Example:	async function loadGame(userName) {
+    try {
+        			const user = await login(userName);
+       			 const info = await getPlayerInfo (user.id);
+       			 // load the game using the returned info
+   		 }
+   		 catch (error){
+       			 throw error;
+   		 }
+}
+
+	Generalized Functions
+Callbacks can be used to build more generalized functions.
+ Instead of having lots of specific functions, one function can be written that accepts a callback. 
+
+		Functions That Return Functions
+			
+
+	Closures
+		Closures are one of JavaScript’s most powerful features.
+		
+	Function Scope
+A closure is a reference to a variable that was created inside the scope of another function, but is then kept alive and used in another part of the program.
+One of the key principles in creating closures is that an 'inner' function, which is declared inside another function, has full access to all of the variables declared inside the scope of the function in which it’s declared (the 'outer' function).
+Whenever a function is defined inside another function, the inner function will have access to any variables that are declared in the outer function's scope.
+
+	Returning Functions
+A closure is formed when the inner function is returned by the outer function, maintaining access to any variables declared inside the enclosing function.
+Assign a variable to the return value of the outer() function:
+Example:	const closure = outer();
+The variable closure now points to the inner() function that is returned by the outer() function.
+What makes this a closure is that it now has access to the variables created inside both the outer() and inner() functions.
+This is important as the variable outside should only exist while the outer() function is running. The closure maintains access to this variable, however, even though the outer() has been invoked.
+A closure doesn't just have access to the value of a variable, it can also change the value of the variable long after the function in which it was originally declared has been invoked.
+
+	Generators
+These are special functions used to produce iterators that maintain the state of a value.
+To define a generator function, an asterisk symbol (*) is placed after the function declaration.
+Example:	function* exampleGenerator() {
+// code for the generator goes here
+}
+Calling a generator function doesn’t actually run any of the code in the function; it returns a Generator object that can be used to create an iterator that implements a next() method that returns a value every time the next() method is called.
+Generator functions employ the special yield keyword that is used to return a value.
+The difference between the yield and the return keywords is that by using yield, the state of the value returned is remembered the next time yield is called. 
+To create a generator object based on this function, we simply assign a variable to the function, and provide it with two starting numbers as arguments:
+Example:	const sequence = fibonacci(1,1);
+
+
+	Functional Programming
+		Functional programming is a programming paradigm.
+JavaScript is a multi-paradigm language, meaning that it can be used to program in a variety of paradigms.
+
+Pure Functions
+	A key aspect of functional programming is its use of pure functions. 
+	A pure function is a function that adheres to the following rules:
+1) The return value of a pure function should only depend on the values provided as arguments. It doesn't rely on values from somewhere else in the program.
+2) There are no side-effects. A pure function doesn't change any values or data elsewhere in the program. It only makes non-destructive data transformations and returns new values, rather than altering any of the underlying data.
+3) Referential transparency. Given the same arguments, a pure function will always return the same result.
+
+
+In order to follow these rules, any pure function must have:
+•	At least one argument; otherwise the return value must depend on something other than the arguments of the function, breaking the first rule
+•	A return value; otherwise there’s no point in the function (unless it has changed something else in the program – in which case, it’s broken the 'no side-effects' rule).
+Referential transparency makes pure functions easy to test as they can be relied on to return the same values when the same arguments are provided.
+Another benefit is that any return values can be cached, since they’re always the same.
+Note:	One point to note is that using const to declare variables will help to avoid destructive data transformations. This is because any variables that are assigned to primitive values using const cannot be changed (although variables that are assigned to non-primitive objects using const can still be mutated, so it's not a complete solution).
+Example:  Here’s an example of a pure function that achieves the same result:
+		const number = 42;
+function pureAdd(x,y) {    
+return x + y;}
+result = pureAdd(number,10);
+<< 52
+
+Functional programming uses pure functions as the building blocks of a program. 
+The functions perform a series of operations without changing the state of any data. 
+ Each function forms an abstraction that should perform a single task, while encapsulating the details of its implementation inside the body of the function.
+By only performing a single task, pure functions are more flexible, as they can be used as the building blocks for many different situations, rather than be tightly coupled with one particular operation.
+Higher-Order Functions
+Higher-order functions are functions that accept another function as an argument, or return another function as a result, or both.
+Closures are used extensively in higher-order functions as they allow us to create a generic function that can be used to then return more specific functions based on its arguments.
+Other high order functions
+	multiplier( ) Function
+	power( ) function
+When a higher-order function returns another function, we can use a neat trick to create an anonymous return function and immediately invoke it with a value instead by using double parentheses.
+Example:	power(3)(5);
+<< 243
+This works because power(3) returns a function, to which we immediately pass an argument of 5 by adding it in parentheses at the end.
+
+Currying
+Currying is a process that involves the partial application of functions. 
+ It’s named after the logician Haskell Curry — not the spicy food — just like the programming language Haskell is.
+A function is said to be curried when not all arguments have been supplied to the function, so it returns another function that retains the arguments already provided, and expects the remaining arguments that were omitted when the original function was called. A final result is only returned once all the expected arguments have eventually been provided.
+Currying relies on higher-order functions that are able to return partially applied functions. 
+All curried functions are higher-order functions because they return a function, but not all higher-order functions are curried.
+The power() function above is an example of a higher-order function that can be curried as it will expects two arguments, but will return another, curried function, if the only one argument is provided.
+Currying allows you to turn a single function into a series of functions.
+This is useful if you find that you’re frequently calling a function with the same argument. 
+
+		A General Curry Function
+Use a curry() function to take any function and allow it to be partially applied.
+Example:	function curry(func,...oldArgs) {
+    			return function(...newArgs) {
+        				const allArgs = [...oldArgs,...newArgs];
+        				return func(...allArgs);
+   			 }
+}
+
+	Getting Functional
+Advocates of functional programming can be quite partisan about its benefits. 
+But even adopting some of its principles, such as keeping functions as pure as possible, and keeping changes in state to a minimum, will help improve the standard of your programming.
+
+
+
+
+
+
+
+Chapter 13 – Ajax
+	Clients and Servers
+A client, such as a web browser, will request a resource (usually a web page) from a server, which processes the request and sends back a response to the client.
+Ajax allows JavaScript to request resources from a server on behalf of the client. The resources requested are usually JSON data or small fragments of text or HTML rather than a whole web page.
+
+	A Brief History of Ajax
+The term 'Ajax' was coined by Jesse James Garrett in 2005 in the article “Ajax: A New Approach to Web Applications,” where he referred to techniques being used by Google in its recent web applications. Ajax was a neat acronym that referred to the different parts of the process being used: Asynchronous JavaScript and XML:
+Asynchronous
+When a request for data is sent, the program doesn’t have to stop and wait for the response. It can carry on running, waiting for an event to fire when a response is received. By using callbacks to manage this, programs are able to run in an efficient way, avoiding lag as data is transferred back and forth.
+JavaScript
+JavaScript was always considered a 'front-end' language, not used to communicate with the server. Ajax enabled JavaScript to send requests and receive responses from a server, allowing content to be updated in real time.
+XML
+When the term Ajax was originally coined, XML documents were often used to return data. Many different types of data can be sent, but by far the most commonly used in Ajax nowadays is JSON, which is more lightweight and easier to parse than XML. (Although it has never really taken off, the term Ajaj is sometimes used to describe the technique.) JSON also has the advantage of being natively supported in JavaScript, so you can deal with JavaScript objects rather than having to parse XML files using DOM methods.
+
+The Fetch API
+The Fetch API uses promises to avoid callback hell, and also streamlines a number of concepts that had become cumbersome when using the XMLHttpRequest object.
+
+Basic Usage
+The Fetch API provides a global fetch() method that only has one mandatory argument, which is the URL of the resource you wish to fetch.
+Example: 	fetch('https://example.com/data')
+.then( // code that handles the response )
+.catch( // code that runs if the server returns an error )
+
+		Response Interface
+The Fetch API introduced the Response interface that deals with the object that’s returned when the promise is fulfilled. 
+Response objects have a number of properties and methods that allow us to process the response effectively.
+an ok property that checks to see if the response is successful. 
+We can use an if block to check if the request was successful, and throw an error otherwise.
+Example:	const url = 'https:example.com/data';
+fetch(url)
+.then((response) => {
+    			if(response.ok) {
+        				return response;
+    			}
+    			throw Error(response.statusText);
+})
+.then( response => // do something with response )
+.catch( error => console.log('There was an error!') )
+
+Other properties of the Response object are:
+•	headers – A Headers object (see later section) containing any headers associated with the response
+•	url – A string containing the URL of response
+•	redirected – A boolean value that specifies if the response is the result of a redirect
+•	type – A string value of 'basic', 'cors', 'error' or 'opaque'. A value of 'basic' is used for a response from the same domain. A value of 'cors' means the data was received from a valid cross-origin request from a different domain. A value of 'opaque' is used for a response received from 'no-cors' request from another domain, which means access to the data will be severely restricted. A value of 'error' is used when a network error occurs.
+
+Redirects
+The redirect() method can be used to redirect to another URL. It creates a new promise that resolves to the response from the redirected URL.
+Example:	fetch(url)
+.then( response => response.redirect(newURL)); // redirects to another URL
+.then( // do something else )
+.catch( error => console.log('There was an error: ', error))
+Note: 	At the present time, there is no support for the redirect() method in any browser.
+
+
+
+
+
+
+		Text Responses
+The text() method takes a stream of text from the response, reads it to completion and then returns a promise that resolves to a USVSting object that can be treated as a string in JavaScript.
+Example:	fetch(url)
+.then( response => response.text() ); // transforms the text stream into a JavaScript string
+.then( text => console.log(text) )
+.catch( error => console.log('There was an error: ', error))
+
+File Responses
+The blob() method is used to read a file of raw data, such as an image or a spreadsheet. Once it has read the whole file, it returns a promise that resolves with a blob object.
+Example:	fetch(url)
+.then( response => response.blob() ); // transforms the data into a blob object
+.then( blob => console.log(blob.type) )
+.catch( error => console.log('There was an error: ', error))
+
+JSON Responses
+JSON is probably the most common format for AJAX responses. The json() method is used to deal with these by transforming a stream of JSON data into a promise that resolves to a JavaScript object.
+Example:	fetch(url)
+.then( response => response.json() ); // transforms the JSON data into a JavaScript object
+.then( data => console.log(Object.entries(data)) )
+.catch( error => console.log('There was an error: ', error))
+
+
+Creating Response Objects
+You can also create your own response objects using a constructor function.
+These can be useful to use if you are creating an API that needs to send a response, or if you need to send a dummy response for testing purposes.
+Example:	const response = new Response( 'Hello!', {
+    		ok: true,
+    		status: 200,
+    		statusText: 'OK',
+    		type: 'cors',
+    		url: '/api'
+});
+	
+		Requesting Interface
+We can get more fine-grained control over the request being made by providing a Request object as an argument. 
+This allows a number of options to be set about the request.
+Request objects are created using the Request() constructor, and include the following properties:
+•	url – The URL of the requested resource (the only property that is required).
+•	method – a string that specifies which HTTP method should be used for the request. By default, this is 'GET'.
+•	headers – This is a Headers object (see later section) that provides details of the request's headers.
+•	mode – Allows you to specify if CORS is used or not. CORS is enabled by default.
+•	cache – Allows you to specify how the request will use the browser's cache. For example, you can force it to request a resource and update the cache with the result, or you can force it to only look in the cache for the resource.
+•	credentials – Lets you specify if cookies should be allowed with the request.
+•	redirect – Specifies what to do if the response returns a redirect. There’s a choice of three values: 'follow' (the redirect is followed), 'error' (an error is thrown) or 'manual' (the user has to click on a link to follow the redirect).
+Example:	const request = new Request('https://example.com/data', {
+    			method: 'GET',
+   		 	mode: 'cors',
+   		 	redirect: 'follow',
+    			cache: 'no-cache'
+});
+The url property is the first argument, and is required. 
+The second argument is an object made up of any of the other properties listed.
+•	GET requests to retrieve resources
+•	POST requests, usually used to create a resource but can actually perform any task
+•	PUT requests to upsert, which means insert a resource or update it entirely
+•	PATCH requests to make partial updates to a resource
+•	DELETE requests to delete a resources.
+Once the Request object is assigned to a variable, it can then be used as the parameter of the fetch() method
+Example:	fetch(request)
+.then( // do something with the response )
+.catch( // handle any errors)
+
+
+
+
+Alternatively, you can enter the URL and object directly as arguments of the fetch() method, without having to create a Request object
+Example:	fetch('https://example.com/data', {
+    			method: 'GET',
+   			 mode: 'cors',
+    			redirect: 'follow',
+   			 cache: 'no-cache'
+})
+.then( // do something with the response )
+.catch( // handle any errors)
+
+	Headers Interface
+HTTP headers are used to pass on any additional information about a request or response.
+Typical information contained in headers includes 
+the file-type of the resource
+cookie information
+authentication information
+when the resource was last modified
+The Fetch API introduced a Headers interface, which can be used to create a Headers object, which can then be added as a property of Request and Response objects.
+Example:	const headers = new Headers();
+The constructor function can be provided with an optional argument containing any initial header values:
+Example:	const headers = new Headers({ 'Content-Type': 'text/plain', 'Accept-Charset' : 'utf-8', 'Accept-Encoding':'gzip,deflate' })
+	A Headers object includes the following properties and methods that can be used to access information about the headers, as well as edit the header information.
+has() – Can be used to check if the headers object contains the header provided as an argument.
+Example: 	headers.has('Content-Type');
+<< true
+
+get() - Returns the value of the header provided as an argument
+Example:	headers.get('Content-Type');
+<< 'text/plain'
+
+set() – Can be used to set a value of an already existing header, or create a new header with the value provided as an argument if it does not already exist
+Example:	headers.set('Content-Type', 'application/json');
+
+		append() – Adds a new header to the headers object.
+Example:	headers.append('Accept-Encoding','gzip,deflate');
+
+		delete() – Removes the header provided as an argument.
+Example:	headers.delete('Accept-Encoding')
+
+keys(), values() and entries() – Iterators that can be used to iterate over the headers key, values or entries (key and value pairs).
+Example:	for(const entry of headers.entries(){
+console.log(entry);
+}
+<< [ 'Content-Type', 'application/json' ]
+	
+
+
+
+
+	Putting It All Together
+We can use the Headers, Request and Response objects to put together a typical example that sets up the URL, Request and Headers before calling the fetch() method:
+Example:	const url = 'https:example.com/data';
+const headers = new Headers({ 'Content-Type': 'text/plain', 'Accept-Charset' : 'utf-8', 'Accept-Encoding':'gzip,deflate' })
+
+const request = (url,{
+  			headers: headers
+})
+
+fetch(request)
+.then( function(response) {
+   			if(response.ok) {
+        				return response;
+   			 }
+   			 throw Error(response.statusText);
+})
+.then( response => // do something with response )
+.catch( error => console.log('There was an error!') )
+
+Receiving Information
+	
+Sending Information
+
+
+
+
+A Living Standard
+The Fetch API is, at the time of writing, what is known as a 'living standard', which means that the specification is being developed 'in the wild'. This means that, despite it being available to use, it’s still subject to change as developers, browser vendors and end-users provide feedback about how it works. It’s an experimental technology, and new features might get added, or the syntax and behavior of some properties and methods might change in the future. 

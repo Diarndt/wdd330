@@ -1,0 +1,1012 @@
+Diane Arndt
+Brother Gedeborg
+WDD 330
+November 5, 2022
+
+https://github.com/Diarndt/wdd330
+
+Week 8 Notes:
+Chapter 8: Transforms and Transitions
+Transforms
+The transforms property lets you translate, rotate, scale, and/or skew any element on the page.
+We can manipulate an element’s appearance using transform functions. 
+
+		Translation
+Translation functions allow you to move elements left, right, up, or down.
+When you employ a translation function, you’re moving elements without impacting the flow of the document.
+The translate(x,y) function moves an element x from the left, and y from the top:
+If you only want to move an element vertically or horizontally, you can use the translatex or translatey functions respectively. To move 45px to the right along the x axis,
+To move up along the y axis by 30px, include:
+Example:	transform: translateY(-30px);
+			Transforms don’t work on inline elements. 
+		
+		Scaling
+The scale(x,y) function scales an element by the defined factors horizontally then vertically. 
+If only one value is provided, it will be used for both the x and y values, growing or shrinking your element or pseudo-element while maintaining the original aspect ratio.
+You can also use the scaleX(x) or scaleY(y) functions. These functions will scale only the horizontal dimensions or only the vertical dimensions respectively.
+A scaled element will grow outwards from or shrink inwards towards its center; in other words, the element’s center will stay in the same place as its dimensions change. 
+To change this default behavior, you can include the transform-origin property.
+To declare multiple transformations, provide a space-separated list of transform functions. We simply add our scale to the end of that space-separated list.
+Example:	.ad-ad2 h1:hover span {
+    			color: #484848;  
+    			transform: translateX(40px) scale(1.5);
+}
+It’s also worth remembering that scaling, like translation, has no impact on the document flow.
+Transforming does not cause a reflow.
+
+Rotation
+The rotate() function rotates an element around the point of origin by a specified angle value.
+By default the point of origin is the element’s center. 
+Generally, angles are declared in degrees, with positive degrees moving clockwise and negative moving counterclockwise. 
+ In addition to degrees, values can be provided in grads, radians, or turns, but we’ll just be sticking with degrees.
+Example:	transform: rotate(10deg) translateX(40px) scale(1.5);
+}
+Declaring the rotation before the translate so that it’s applied first—remember that transforms are applied in the order provided. In this case, the span will be rotated 10 degrees, and then moved 40px along the rotated x axis.
+		Skew
+			The skew(x,y) function specifies a skew along the x and y axes.
+If the second parameter is omitted, the skew will only occur on the x axis.
+Example:	transform: skew(15deg, 4deg);
+there are axis-specific versions of the skew transform: skewX() and skewY().
+
+		Changing the Origin of the Transform
+You can control the origin from which your transforms are applied. This is done using the transform-origin property. It has the same syntax as the background-position property, and defaults to the center of the object (so that scales and rotations will be around the center of the box by default).
+ If you gave your circle or ellipse a transform-origin of 10% 10% or top center, you would notice the rotation.
+Note: Choose Your Ordering Carefully
+The order of transform functions does matter: if you rotate before translating, your translate direction will be on the rotated axis.
+Remember, though, that while transformed elements still take up the space they did before being scaled, altering a width, height or font-size alters the space allocated for the element and can affect the layout.
+
+	Transitions
+Transitions allow the values of CSS properties to change over time, essentially providing simple animations.
+Here are the steps to create a simple transition using only CSS:
+1.	Declare the original state of the element in the default style declaration.
+2.	Declare the final state of your transitioned element; for example, a :hover state.
+3.	Include the transition functions in your default style declaration using the transition properties, including: transition-property, transition-duration, transition-timing-function, and transition-delay. We’ll look at each of these and how they work shortly.
+The transition-property property defines the CSS properties of the element that should be transitioned, with all for all properties being the default.
+You can provide any number of CSS properties to the transition-property declaration, separated by commas. Alternatively, you can use the keyword all to indicate that every supported property should be animated as it transitions.
+
+The transition-duration Property
+The transition-duration property sets how long the transition will take: the duration of time it takes to go from the default state to the transitioned state. You can specify this either in seconds (s) or milliseconds (ms).
+200ms is generally considered the optimum time for a transition: anything slower will make the website seem slow, anything faster may be too subtle.
+
+		The transition-time-function Property
+The transition-timing-function lets you control the pace of the transition in even more granular detail. Do you want your animation to start off slow and become faster, start off fast and end slower, advance at an even keel, or some other variation?
+The most common timing functions include the key terms ease, linear, ease-in, ease-out, or ease-in-out.
+The default ease has a slow start, then it speeds up, and ends slowly. 
+ease-in-out is similar to ease, but accelerates more sharply at the beginning. 
+linear creates a transition that animates at a constant speed.
+ease-in creates a transition that is slow to start but gains speed, then stops abruptly. 
+The opposite, ease-out, starts at full speed, then slows progressively as it reaches the conclusion of the transition.
+It’s helpful to set a relatively long transition-duration when testing timing functions
+You can also describe your timing function more precisely by defining your own cubic-bezier function. 
+It accepts four numeric parameters; for example, linear is the same as cubic-bezier(0, 0, 1, 1). 
+ http://cubic-bezier.com/
+ http://estelle.github.io/animation/files/cubicbezierprint.html
+You can divide the transition over equidistant steps. With the steps function, you define the number of steps and the direction of either start or end, where either the first step happens at the animation start, or the last step happens at the animation end respectively.
+Example:	steps(n, start) or step(n, end): steps(5, start) would jump through the equidistant steps of 0%, 20%, 40%, 60%, and 80%, and steps(5, end) would jump through the equidistant steps of 20%, 40%, 60%, 80%, and 100%. 
+
+	The transition Shorthand Property
+Example:	.ad-ad2 h1 span {
+    		transition-property: transform; 
+    		transition-duration: 0.2s;  
+    		transition-timing-function: ease-out;
+    		transition-delay: 50ms;
+}
+	Shorthand:
+	.ad-ad2 h1 span {
+    		transition: transform 0.2s ease-out 50ms;
+}
+
+
+
+Multiple Transitions
+The transition properties allow for multiple transitions in one call. For example, if we want to change the color at the same time as changing the rotation and size, we can.
+Example:	transition-property: transform, color; 
+transition-duration: 0.2s;  
+transition-timing-function: ease-out;
+transition-delay: 50ms;
+
+	Animations
+CSS animations, unlike transitions, allow you to control each step of an animation via keyframes.
+A keyframe is a snapshot that defines a starting or end point of any smooth transition.
+CSS animations allow us to add any number of keyframes in between, to guide our animation in more complex ways.
+Generally, it is best to use CSS for simple-state changes in a mobile environment. But it’s still better to employ JavaScript for intricate, stateful UIs, and when you do, you’ll likely want to use a JavaScript animation library to help with manageability and performance.
+
+Keyframes
+To animate an element in CSS, you first create a named animation, then attach it to an element in that element’s property declaration block. Animations in themselves don’t do anything; in order to animate an element, you’ll need to associate the animation with that element.
+To create an animation, use the @keyframes rule for IE10+ and FF16+. Include @-webkit-keyframes for all WebKit implementations followed by a name of your choosing, which will serve as the identifier for the animation. Then, you can specify your keyframes.
+
+
+
+Example:	@-webkit-keyframes myAnimation { 
+ 		   /* put animation keyframes here */
+}
+@keyframes myAnimation { 
+   		 /* put animation keyframes here */
+}
+Do not quote the animation name.
+Each keyframe looks like its own nested CSS declaration block. 
+Use a percentage value, or a comma-separated list of percentage values. 
+There are two keyterms― from and to ―which evaluate to 0% and 100% respectively. These values specify how far along the animation each keyframe is located.
+Inside each keyframe include the properties you want to animate, along with the animated values.
+Keyframes can be specified in any order; it’s the percentage values rather than the order of the declarations that determine the sequence of keyframes in the animation.
+Example:	@keyframes moveRight { 
+   			 from {
+    			transform: translateX(-50%);
+   			 }
+    			to {
+   			transform: translateX(50%);
+   			 }
+}
+@keyframes appearDisappear { 
+    			0%, 100% {
+    			opacity: 0;
+   			 }
+    			20%, 80% {
+    			opacity: 1;
+    			}
+}
+
+@keyframes bgMove {
+    			100% {
+    			background-position: 120% 0;
+   			 }
+}
+
+Animation Properties
+The animation properties, remembering that you will need two declarations for each property as the -webkit- prefix is still needed in WebKit browsers, are as follows:
+animation-name
+This property is used to attach an animation (previously defined using the @keyframes syntax) to an element:
+animation-name: appearDisappear;
+Note:	You should not put quotes around the animation name in either the property value or the @keyframes at-rule, as the specifications state the name is an identifier and not a string, so browsers don’t support quoted animation names.
+The animation-duration property defines the length of time (in seconds or milliseconds) an animation takes to complete one iteration (all the way through, from 0% to 100%):
+		animation-duration: 300ms;
+While animation-name is the only required animation property to create an animation, the animation-durationshould be considered required to animate an element.
+The other animation properties, while they enable you to better control your animation, are optional.
+
+
+animation-timing-function
+The animation-timing-function determines how the animation will progress over its duration.
+The options are the same as for transition-timing-function: ease, linear, ease-in, ease-out, ease-in-out, a developer-defined cubic-bezier() function, step-start, step-end, or a developer-defined number of steps with the steps(number, direction) function:
+Example:	animation-timing-function: linear;
+
+			animation-iteration-count
+The animation-iteration-count property lets you define how many times the animation will play through.
+The value is generally an integer, but you can also use numbers with decimal points (in which case, the animation will end partway through an iteration), or the value infinite for endlessly repeating animations.
+ If omitted, it will default to 1, in which case the animation will occur only once. 
+Example: 	animation-iteration-count: infinite;
+
+			animation-direction
+When the animation iterates, it normally goes from the 0% to the 100% keyframe, jumping back to the 0% when it starts a new iteration (if the animation-iteration-count is greater than 1). This is the default or normal value for animation-direction. You can use the animation-direction property to change this behavior.
+The value of reverse will cause the animation to start at the 100% keyframe and work its way to the 0% keyframe for every iteration. 
+With the alternate value, the initial iteration and odd-numbered iterations after that will go in the normal 0% to 100% direction, but the second iteration and every even iteration after that will go in the reverse direction of 100% to 0%.
+Similarly, the alternate-reverseanimation-direction value causes the animation to alternate direction at every iteration, but it starts in reverse.
+Example:	animation-direction: alternate;
+When animations are played in reverse, timing functions are also reversed; for example, ease-in becomes ease-out.
+
+			animation-delay
+The animation-delay property is used to define how many milliseconds or seconds to wait before the browser begins the animation:
+Example:	animation-delay: 50ms;
+		animation-fill-mode
+The animation-fill-mode property defines what happens before the first animation iteration begins and after the last animation iteration concludes. By default, an animation has no effect on property values outside of when it’s iterating, but we can override this default behavior of animation-fill-mode: none.
+The available values are none, forwards, backwards, or both. 
+The default is none.
+animation-fill-mode: backwards
+Tells the animation to sit and wait on the first keyframe from the moment the animation is applied to the element, through the duration of the animation delay, until the animation starts iterating.
+ animation-fill-mode: forwards
+Hold the element at the last keyframe, with last keyframe property values overriding the element's original property values, without reverting to the original values at the conclusion of the last animation iteration.
+animation-fill-mode: both
+achieve both animation-fill-mode: backwards and animation-fill-mode: forwards.
+animation-play-state
+Defines whether the animation is running or paused.
+A paused animation displays the current state of the animation statically. 
+When a paused animation is resumed, it restarts from the current position. 
+
+			The Shorthand animation Property
+The animation property takes as its value a space-separated list of values for the longhand animation-name, animation-duration, animation-timing-function, animation-delay, animation-iteration-count, animation-direction, animation-fill-mode, and animation-play-state properties:
+Example longhand:	.verbose {
+    				animation-name: appearDisappear; 
+    				animation-duration: 300ms; 
+    				animation-timing-function: ease-in;
+    				animation-iteration-count: 1;
+    				animation-direction: alternate;
+    				animation-delay: 5s;
+    				animation-fill-mode: backwards;
+    				animation-play-state: running;
+}
+
+Example shorthand:	  .concise {
+animation: 300ms ease-in alternate 5s backwards appearDisappear;
+}
+Note: That in the shorthand version, we’ve left out the animation-iteration-count and animation-play-state since both were set to default.
+
+		Warning: Be Careful with Naming
+If using the shorthand property, be careful with your animation-name. You want to avoid accidentally using any animation property key term such as forwards, running, or alternate.
+To declare multiple animations on an element, include a grouping for each animation name, with each shorthand grouping separated by a comma. For example:
+Example:	.target {
+animation: 
+animationOne 300ms ease-in backwards, 
+animationTwo 600ms ease-out 1s forwards;
+}
+
+	Moving on
+Remember the old maxim, though: just because you can, doesn’t mean you should. 
+Use animations and transitions where it makes sense, enhancing the user experience—and skip it everywhere else.
+
+Chapter 12: Canvas, SVG, and Drag and Drop
+	Canvas
+With canvas, we can draw shapes and lines, arcs and text, gradients and patterns.
+In addition, canvas gives us the power to manipulate pixels in images and even video. 
+
+A Bit of Canvas History
+
+
+
+	
+Creating a canvas Element
+The first step to using canvas is to add a canvas element to the page:
+Example:	<canvas>
+    Sorry! Your browser doesn’t support Canvas.
+</canvas>
+The text in between the canvas tags will only be shown if the canvas element is not supported by the visitor’s browser.
+Since drawing on the canvas is done using JavaScript, we’ll need a way to grab the element from the DOM. We’ll do so by giving our canvas an ID:
+Example:	<canvas id="myCanvas" class="myCanvas">
+    			Sorry! Your browser doesn’t support Canvas.
+</canvas>
+The canvas element takes both a width and height attribute, which must also be set.
+Note: Why not set width and height using CSS?
+Because the width and height attributes determine how large the canvas’s coordinate system is. If we don’t specify width and height, the canvas element will default to a width of 300 and a height of 150. If we set the width and height for a canvas only in CSS, the canvas element will be 300 by 150, and the CSS properties will simply determine how large the box is that displays the image.
+Example:	<canvas id="myCanvas" class="myCanvas" width="200" height="200">
+    			Sorry! Your browser doesn’t support Canvas.
+</canvas>
+Finally, let’s add a border to our canvas using some CSS to visually distinguish it on the page. Canvas has no default styling, so it’s difficult to see where it is on the page unless you give it some kind of border:
+Example:	.myCanvas {
+    border: dotted 2px black;
+}
+
+Drawing on the Canvas
+	All drawing on the canvas happens via the Canvas JavaScript API.
+first, let’s start with the basics. Before we can draw onto a canvas, we need to grab hold of the canvas element on our page:
+Example:	var canvas = document.getElementById("myCanvas");
+		
+		Getting the Context
+Once we’ve stored our canvas element in a variable, we then set up the canvas’s context.
+The context is the place where your drawing is rendered.
+We obtain our drawing context by calling the getContext method and passing it the string "2d", since we’ll be drawing in two dimensions:
+Example:	var canvas = document.getElementById("myCanvas");
+var context = canvas.getContext("2d");
+The object that’s returned by getContext is an instance of CanvasRenderingContext2D.
+Note: What About 3D?
+WebGL is a new API for 3D graphics being managed by the Khronos Group, with a WebGL working group that includes Apple, Mozilla, Google, and Opera.
+By combining WebGL with HTML5 Canvas, you can draw in three dimensions. WebGL is currently fully supported in Chrome 18+, Internet Explorer 11+, and iOS 8+, and partially supported in Firefox 4+, Safari 5.1, Opera 12+, and Chrome 37+ for Android. To learn more, see http://www.khronos.org/webgl/.
+
+	Filling Our Brush with Color
+In the HTML5 canvas, you must first saturate your brush using the following, strokeStyle or fillStyle properties. 
+Both strokeStyle and fillStyle are set on a context object, and both take one of three values: a string representing a color, a CanvasGradient object, or a CanvasPattern object.
+To draw a rectangle with a red border, we first define the stroke color:
+Example:	var canvas = document.getElementById("myCanvas");     
+var context = canvas.getContext("2d");
+context.strokeStyle = "red";
+
+To draw a rectangle with a red border and blue fill, we must also define the fill color:
+Example:	var canvas = document.getElementById("myCanvas"); 
+var context = canvas.getContext("2d");
+context.strokeStyle = "red";
+context.fillStyle = "blue";
+	
+We can use any CSS color value to set the stroke or fill color, as long as we specify it as a string: a hexadecimal value such as #00FFFF, a color name such as red or blue, or an RGB value such as rgb(0, 0, 255). We can even use the property rgba to set a semitransparent stroke or fill color.
+
+		Drawing a Rectangle to the Canvas
+We can do this by calling the fillRect and strokeRect methods. Both of these methods take the X and Y coordinates where you want to begin drawing the fill or the stroke, and the width and height of the rectangle. We’ll add the stroke and fill 10 pixels from the top and 10 pixels from the left of the canvas’s top-left corner:
+Example:	var canvas = document.getElementById("myCanvas");
+var context = canvas.getContext("2d"); 
+context.strokeStyle = "red";
+context.fillStyle = "rgba(0, 0, 255, 0.5)";
+context.fillRect(10, 10, 100, 100);
+context.strokeRect(10, 10, 100, 100);
+
+
+
+Note: The Canvas Coordinate System
+the coordinate system in the canvas element is different from the Cartesian coordinate system you learned in math class. In the canvas coordinate system, the top-left corner is (0,0). If the canvas is 200 pixels by 200 pixels, then the bottom-right corner is
+			 
+		Variations on fillStyle
+Instead of a color as our fillStyle, we could have used a CanvasGradient or a CanvasPattern object. 
+We create a CanvasPattern by calling the createPattern method. createPattern takes two parameters: the image to create the pattern with, and how that image should be repeated. The repeat value is a string, and the valid values are the same as those in CSS: repeat, repeat-x, repeat-y, and no-repeat.
+Instead of using a semitransparent blue fillStyle, let’s create a pattern using our bicycle image. We’ll do this in a new function called drawPattern. After doing the basics (grabbing the canvas and the context and setting a stroke), we must create an Image object and set its src property to our image:
+Example:	function drawPattern() {
+    var canvas = document.getElementById("demo2");
+    var context = canvas.getContext("2d");
+    context.strokeStyle = "red";
+    var img = new Image(); 
+    img.src = "../images/bg-bike.png";
+}
+Setting the src attribute will tell the browser to start downloading the image; however, if we try to use it immediately to create our gradient, we might run into some problems, because the image may still be loading (depending on whether it is in the browser cache). To be on the safe side, we’ll use the image’s onload property to create our pattern once the image has been fully loaded by the browser:
+Example:	function drawPattern() {
+   			var canvas = document.getElementById("demo2");
+    			var context = canvas.getContext("2d");
+    			context.strokeStyle = "red";
+    
+    			var img = new Image();
+    			img.src = "../images/bg-bike.png";
+    			img.onload = function() { 
+   			 };            
+}
+In our onload event handler, we call createPattern, passing it the Image object and the string repeat so that our image repeats along both the X and Y axes. We store the results of createPattern in the variable pattern, and set the fillStyle to that variable:
+Example:	function drawPattern() {
+    …
+    var img = new Image();
+    img.src = "../images/bg-bike.png";
+    img.onload = function() {
+    var pattern = context.createPattern(img, "repeat"); 
+    context.fillStyle = pattern;                        
+    context.fillRect(10, 10, 100, 100);                  
+    context.strokeRect(10, 10, 100, 100);             
+    };
+}
+Note: Anonymous Functions
+Anonymous functions are much like regular functions except, as you might guess, they are without names.
+When you see an anonymous function defined as an event listener, it means that the anonymous function is being bound to that event. In other words, the code inside that anonymous function will be run when the load event is fired.
+
+To create a CanvasGradient, we call one of two methods: createLinearGradient() or createRadialGradient(); then we add one or more color stops to the gradient.
+createLinearGradient ’s x0 and y0 represent the starting location of the gradient. x1 and y1 represent the ending location.
+To create a gradient that begins at the top of the canvas and blends the color down to the bottom, we’d define our starting point at the origin (0,0), and our ending point 200 pixels down from there (0,200):
+Example:	function drawGradient() {
+var canvas = document.getElementById("demo3");
+var context = canvas.getContext("2d");
+context.strokeStyle = "red";
+var gradient = context.createLinearGradient(0, 0, 0, 200);
+ }
+
+Next, we specify our color stops. The color stop method is simply addColorStop().
+The offset is a value between 0 and 1. An offset of 0 is at the start of the gradient, and an offset of 1 is at the end of the gradient. The color is a string value that, as with the fillStyle, can be a color name, a hexadecimal color value, an rgb() value, or an rgba() value.
+To make a gradient that starts as blue and begins to blend into white halfway down the gradient, we can specify a blue color stop with an offset of 0 and a purple color stop with an offset of 1:
+
+
+Example:	function drawGradient() {
+    …
+    var gradient = context.createLinearGradient(0, 0, 0, 200);
+    gradient.addColorStop(0, "blue"); 
+    gradient.addColorStop(1, "white"); 
+    context.fillStyle = gradient; 
+    context.fillRect(10, 10, 100, 100); 
+    context.strokeRect(10, 10, 100, 100); 
+}
+
+Drawing Other Shapes by Creating Paths
+To draw more interesting shapes, we must first lay out the path of the shape.
+Paths create a blueprint for your lines, arcs, and shapes, but paths are invisible until you give them a stroke! When we drew rectangles, we first set the strokeStyle and then called fillRect. With more complex shapes, we need to take three steps: layout the path, stroke the path, and fill the path. 
+The first step is to begin the path of the circle. We do that with the method beginPath(), which resets the default path for you to begin drawing a new shape:
+Example:	function drawCircle(canvas) {
+    var context = canvas.getContext("2d");
+    context.beginPath();
+}
+Now we need to create an arc. An arc is a segment of a circle, but as there’s no method for creating a circle, we can draw a 360° arc. We create it using the arc method:
+Example:	function drawCircle(canvas) {
+    var canvas = document.getElementById("myCanvas");
+    var context = canvas.getContext("2d");
+    context.beginPath();
+    context.arc(50, 50, 30, 0, Math.PI*2, true);
+}
+The signature for the arc method is: arc(x, y, radius, startAngle, endAngle, anticlockwise).
+x and y represent where on the canvas you want the arc’s path to begin. Imagine this as the center of the circle that you’ll be drawing. radius is, of course, the distance from the center to the edge of the circle.
+startAngle and endAngle represent the start and end angles along the circle’s circumference that you want to draw. The units for the angles are in radians, and a circle is 2π radians. We want to draw a complete circle, so we’ll use 2π for the endAngle. In JavaScript, we can obtain this value by multiplying Math.PI by 2.
+Note: Radians Explained
+Radians are a unit used to measure angles, and the symbol π denotes a measurement in radians. One radian is equal to 180 degrees. Two radians, or 2π, are equal to 360 degrees.
+
+anticlockwise is an optional argument. If you wanted the arc to be drawn counterclockwise instead of clockwise, you would set this value to true. 
+next step is to close the path, as we’ve now finished drawing our circle. We do that with the closePath method:
+Example:	function drawCircle(canvas) {
+    var context = canvas.getContext("2d");
+    context.beginPath();
+    context.arc(100, 100, 50, 0, Math.PI*2, true);
+    context.closePath(); 
+}
+
+
+
+
+set a strokeStyle if we’d like to give it a border, and we must set a fillStyle if we’d like our circle to have a fill color. By default, the width of the stroke is one pixel, which is stored in the lineWidth property of the context object. Let’s make our border a bit bigger by setting the lineWidth to 3:
+Example:	function drawCircle(canvas) {
+    var context = canvas.getContext("2d");
+    context.beginPath();
+    context.arc(50, 50, 30, 0, Math.PI*2, true);
+    context.closePath();
+    context.strokeStyle = "red";
+    context.fillStyle = "blue";
+    context.lineWidth = 3; 
+}
+Lastly, we fill and stroke the path. Note that this time, the method names are different from those we used with our rectangle. To fill a path you simply call fill, and to stroke it you call stroke:
+Example:	function drawCircle(canvas) {
+    var context = canvas.getContext("2d");
+    context.beginPath();
+    context.arc(100, 100, 50, 0, Math.PI*2, true);
+    context.closePath();
+    context.strokeStyle = "red";
+    context.fillStyle = "blue";
+    context.lineWidth = 3;
+    context.fill(); 
+    context.stroke(); 
+}
+
+
+Saving Canvas Drawings
+If we create an image programmatically using the Canvas API, but decide we’d like to have a local copy of our drawing, we can use the API’s toDataURL method to save our drawing. toDataURL creates a URL with the image in it, (either a png or jpg, whichever is specified). You can then right-click the image at this URL, and save it as a PNG or JPEG.
+Add a button called saveButton that allows us to save this circle drawn onto the canvas:
+Example:	<h2>Demo 5: Saving canvas drawings</h2>
+<canvas width="200" height="200" id="demo5" class="myCanvas">
+Sorry! Your browser doesn't support Canvas.
+</canvas>
+
+<button name="saveButton" id="saveButton">Save Drawing</button>
+
+When the button is clicked, we want to open the canvas drawing as an image in a new tab. To do that, we’ll define a new JavaScript function called saveDrawing:
+Example:	function saveDrawing() {
+    var canvas5 = document.getElementById("demo5");
+    window.open(canvas5.toDataURL("image/png"));
+}
+
+Next, let’s add code to canvas.js to call our saveDrawing function when the Save button is clicked:
+Example:	var button = document.getElementById("saveButton");
+button.addEventListener("click", saveDrawing, false);
+
+
+
+			Drawing and Image to the Canvas	
+				We can also draw images onto the canvas element. 
+				Let’s start by adding it to our page in an img element:
+Example:	<h2>Demo 6: Drawing an image to the canvas</h2>
+<canvas width="200" height="200" id="demo6" class="myCanvas">
+    			Sorry! Your browser doesn't support Canvas.
+</canvas>
+
+<img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/html5-logo.png" id="myImageElem">
+
+Then, in our canvas.js file, we’ll create a new function called drawImageToCanvas in order to redraw the HTML img element onto the canvas.
+Before we attempt to redraw an HTML img element on the page, we must ensure that the element has loaded. In order to do that, we’ll add an event listener that will run our code only once the window’s load event has fired:
+Example:	window.addEventListener("load", drawImageToCanvas, false);
+Next, after grabbing the canvas element and setting up the canvas’s context, we can grab an image from our page via document.getElementById:
+Example:	function drawImageToCanvas() {
+    			var canvas = document.getElementById("demo6");
+    			var context = canvas.getContext("2d");
+    			var image = document.getElementById("myImageElem");
+}
+
+
+
+We’ll use the same CSS that we used before to make the area of the canvas element visible:
+Example:	.myCanvas {   
+border: dotted 2px black;
+}
+
+We can use canvas’s drawImage method to redraw the image from our page into the canvas:
+Example:	function drawImageToCanvas() {
+    var canvas = document.getElementById("demo6");
+    var context = canvas.getContext("2d");
+    var image = document.getElementById("myImageElem");
+    context.drawImage(image, 0, 0); 
+}
+
+We could instead draw the image at the center of the canvas by changing the X and Y coordinates that we pass to drawImage. Since the image is 64 by 64 pixels and the canvas is 200 by 200 pixels, if we draw the image to (68, 68), [17] the image will be in the center of the canvas.
+
+
+		Manipulating Images
+Once we’ve drawn an image on the canvas, we can use the getImageData method from the Canvas API to manipulate the pixels of that image. 
+ For example, if we wanted to convert our logo from color to black and white, we can do so using methods in the Canvas API.
+getImageData will return an ImageData object, which contains three properties: width, height, and data. The first two are self-explanatory; it’s the last one, data, that interests us.
+data contains information about the pixels in the ImageData object in the form of an array. Each pixel on the canvas will have four values in the data array, which correspond to that pixel’s R, G, B, and A values. A stands for Alpha, a measure of the element’s transparency, with 0 meaning the element is totally transparent, 1 meaning it’s totally opaque, and 0.5 meaning it’s 50% transparent.
+The getImageData method allows us to examine a small section of a canvas.
+
+		Security Errors with getImageData
+What you’ll see specifically is an error in getImageData. The error is a security error.
+The true security issue that Chrome and Firefox are attempting to prohibit is a user on one domain manipulating images on another domain.
+
+		Converting and Image from Color to Black and White
+Let’s look at how we’d go about using getImageData to convert a full color image into black and white on a canvas. We’ll create a new function in the canvas.js file called manipulateImage to do so.
+Use a for loop to iterate through each pixel in the image and change it to grayscale.
+First, we’ll call getImageData(0, 0, 200, 200) to retrieve the entire canvas. 
+Then, we’ll grab the red, green, and blue values of each pixel, which appear in the array in that order:
+Example:	function manipulateImage() {
+    			var canvas = document.getElementById("demo7");
+    			var context = canvas.getContext("2d");
+    			var image = document.getElementById("secondImage");
+    			context.drawImage(image, 68, 68);
+
+   			 var imageData = context.getImageData(0, 0, 200, 200);
+    
+    			var red, green, blue, greyscale;
+    
+    			for (var i = 0; i < imageData.data.length; i += 4) {
+    			red = imageData.data[i];
+    			green = imageData.data[i + 1];
+    			blue = imageData.data[i + 2];
+   			 }
+}
+
+Notice that our for loop is incrementing i by 4 instead of the usual 1. This is because each pixel takes up four values in the imageData array—one number each for the R, G, B, and A values.
+Next, we must determine the grayscale value for the current pixel. It turns out that there’s a mathematical formula for converting RGB to grayscale; you simply need to multiply each of the red, green, and blue values by some specific numbers, seen in this code block:
+Example:	function manipulateImage() {
+…
+    			for (var i = 0; i < imageData.data.length; i += 4) { 
+    			red = imageData.data[i];
+   			 green = imageData.data[i + 1];
+    			blue = imageData.data[i + 2];
+        
+    			grayscale = red * 0.3 + green * 0.59 + blue * 0.11; 
+}
+
+Store it back into the red, green, and blue values in the data array:
+Example:	function manipulateImage() {
+…
+    for (var i = 0; i < imageData.data.length; i += 4) {
+    var red = imageData.data[i];
+    var green = imageData.data[i + 1];
+    var blue = imageData.data[i + 2];
+
+    var grayscale = red * 0.3 + green * 0.59 + blue * 0.11;
+
+    imageData.data[i] = grayscale; 
+    imageData.data[i + 1] = grayscale;  
+    imageData.data[i + 2] = grayscale;  
+    }
+}
+
+The final step, putting the image data we’ve modified back into the canvas via a method called putImageData. This method does exactly what you’d expect: it takes an image's data and writes it onto the canvas. Here’s the method in action:
+Example:	function manipulateImage() {
+    var canvas = document.getElementById("demo7");
+    var context = canvas.getContext("2d");
+    var image = document.getElementById("secondImage");
+    context.drawImage(image, 60, 60);
+
+    var imageData = context.getImageData(0, 0, 200, 200);
+    
+    for (var i = 0; i < imageData.data.length; i += 4) {
+    var red = imageData.data[i];
+    var green = imageData.data[i + 1];
+    var blue = imageData.data[i + 2];
+        
+    var grayscale = red * 0.3 + green * 0.59 + blue * 0.11;
+        
+    imageData.data[i] = grayscale;
+    imageData.data[i + 1] = grayscale;
+    imageData.data[i + 2] = grayscale;
+    } 
+    context.putImageData(imageData, 0, 0);
+}
+
+
+		Manipulating Video with Canvas
+We can take the code we’ve already written to convert a color image to black and white and enhance it to make our color video black and white.
+We’ll do this in a new separate JavaScript file called videoToBW.js, so that we can include it on the site’s home page.
+The file begins by setting up the canvas and the context:
+Example:	function makeVideoOldTimey() {
+    var video = document.getElementById("video");
+    var canvas = document.getElementById("canvasOverlay");
+    var context = canvas.getContext("2d");
+}
+
+Next, we’ll add a new event listener to react to the play event firing on the video element.
+We want to call a custom function called draw when the video begins playing. To do so, we’ll add an event listener to our video element that responds to the play event:
+Example:	function makeVideoOldTimey() {
+    var video = document.getElementById("video");
+    var canvas = document.getElementById("canvasOverlay");
+    var context = canvas.getContext("2d");
+
+    video.addEventListener("play", function() { 
+    draw(video,context,canvas);               
+    }, false);  
+
+}
+
+The draw function, which is a custom function that we’ll define, will be called when the play event fires. 
+It will be passed the video, context, and canvas objects. 
+We’re using an anonymous function here instead of a normal named function because we’re unable to actually pass parameters to named functions when declaring them as event handlers without wrapping them in another function.
+Since we want to pass several parameters to the draw function— video, context, and canvas —we must call it from inside an anonymous function.
+
+Let’s look at the custom draw function:
+Example:	function draw(video, context, canvas) {
+    if (video.paused || video.ended) return false;
+    
+    drawOneFrame(video, context, canvas);
+}
+
+Before doing anything else, we check to see if the video is paused or has ended, in which case we’ll just cut the function short by returning false. 
+Otherwise, we continue on to the drawOneFrame function. 
+The drawOneFrame function is nearly identical to the code we had earlier for converting an image from color to black and white, except that we’re drawing the video element onto the canvas instead of a static image:
+Example:	function drawOneFrame(video, context, canvas){
+    // draw the video onto the canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    var imageData = context.getImageData(0, 0, canvas.width, 
+↵canvas.height);
+    var pixelData = imageData.data; 
+    // Loop through the red, green and blue pixels, 
+    // turning them grayscale
+    
+    var red, green, blue, greyscale;  
+    for (var i = 0; i < pixelData.length; i += 4) {
+    red = pixelData[i];
+    green = pixelData[i + 1];
+    blue = pixelData[i + 2];
+    //we'll ignore the alpha value, which is in position i+3
+        
+    grayscale = red * 0.3 + green * 0.59 + blue * 0.11;
+        
+    pixelData[i] = grayscale;
+    pixelData[i + 1] = grayscale;
+    pixelData[i + 2] = grayscale;
+    }
+            
+    context.putImageData(imageData, 0, 0); 
+}
+
+Note: Getting Better Performance
+In the video conversion, we’ve created another variable, pixelData, which stores the array of pixels in it. You may be wondering why we bother doing this, instead of just accessing imageData.data. The reason is performance. Creating the pixelData variable, which is then used several times in the for loop, saves us several property lookups. There would be no issue if we were just doing one color conversion, but since we’re performing this action over and over again as the video plays, tiny delays matter.
+The setTimeout method allows us to keep calling the draw function over and over again, without pause. The final parameter is the value for delay, which tells the browser how long, in milliseconds, to wait before calling the function. Because it’s set to 0, we are essentially running draw continuously. This goes on until the video has either ended, or been paused:
+Example:	function draw(video, context, canvas) { 
+    if (video.paused || video.ended) return false;
+    
+    drawOneFrame(video, context, canvas);
+    
+    // Start over! 
+    setTimeout(function(){ draw(video, context, canvas); }, 0); 
+}
+Displaying Text on the Canvas
+The first step is to add an error handling try / catch block to catch the error:
+Example:	function drawOneFrame(video, context, canvas){
+    			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    			try {
+    			var imageData = context.getImageData(0, 0, canvas.width, 
+↵canvas.height);
+   			 var pixelData = imageData.data;
+    			for (var i = 0; i < pixelData.length; i += 4) {
+        				var red = pixelData[i];
+        				var green = pixelData[i + 1];
+        				var blue = pixelData[i + 2];
+        				var grayscale = red * 0.3 + green * 0.59 + blue * 0.11;
+        				pixelData[i] = grayscale;
+        				pixelData[i + 1] = grayscale;
+        				pixelData[i + 2] = grayscale;
+   			 }
+    
+    			imageData.data = pixelData;
+   			 context.putImageData(imageData, 0, 0);
+   			 } catch (err) {
+    			// error handling code will go here
+   			 }
+}
+If an error occurs when trying to call getImageData, it would be nice to let the user know what is going wrong. We’ll do just that, using the fillText method of the Canvas API.
+Before we write any text to the canvas, we should clear what’s already there. We’ve already drawn the first frame of the video into the canvas using the call to drawImage. How can we clear it?
+Reset the width or height of the canvas, the canvas will be cleared.
+Example:	function drawOneFrame(video, context, canvas){
+    			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+   			 try {
+   			 …
+    			} catch (err) {
+   			 canvas.width = canvas.width; 
+   			 }
+}
+Next, let’s change the background color from black to transparent, since the canvas element is positioned on top of the video:
+Example:	function drawOneFrame(video, context, canvas){
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    try {
+    … 
+    } catch (err) {
+    // clear the canvas 
+    context.clearRect(0,0,canvas.width,canvas.height);
+    canvas.style.backgroundColor = "transparent"; 
+    context.fillStyle = "white"; 
+    }
+}
+Before we can draw any text to the now transparent canvas, we first must set up the style of our text.
+We do that with the fillStyle and textAlign methods:
+Example:	function drawOneFrame(video, context, canvas){
+    			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    			try {(review code style)
+    			…
+   			 } catch (err) {
+   			 // clear the canvas 
+   			 context.clearRect(0,0,canvas.width,canvas.height);
+    			canvas.style.backgroundColor = "transparent";               
+   			 context.fillStyle = "white"; 
+   			 context.textAlign = "left"; 
+   			 }
+}
+We can also set a specific font and font style we’d like to use. The font property of the context object works the same way the CSS font property does. 
+Example:	function drawOneFrame(video, context, canvas){
+    			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    			try {
+    			…
+   			 } catch (err) {
+   			 // clear the canvas 
+    			context.clearRect(0,0,canvas.width,canvas.height);
+    			canvas.style.backgroundColor = "transparent";
+    			context.fillStyle = "white";
+    			context.textAlign = "left";
+
+    			context.font = "18px LeagueGothic, Tahoma, Geneva, sans-serif"; 
+    			}
+}
+	Finally, we draw the text.
+We use a method of the context object called fillText, which takes the text to be drawn and the x,y coordinates where it should be placed. Since we want to write out a fairly long message, we’ll split it up into several sections, placing each one on the canvas separately:
+Example:	function drawOneFrame(video, context, canvas){
+    			context.drawImage(video, 0, 0, canvas.width, canvas.height);
+ try {
+    			…
+    			} catch (err) {
+    			// clear the canvas 
+    			context.clearRect(0,0,canvas.width,canvas.height);
+    			canvas.style.backgroundColor = "transparent";
+    			context.fillStyle = "white";
+    			context.textAlign = "left";
+    			context.font = "18px LeagueGothic, Tahoma, Geneva, sans-serif";
+   		 	context.fillText("There was an error rendering ", 10, 20);  
+    			context.fillText("the video to the canvas.", 10, 40);
+    			context.fillText("Perhaps you are viewing this page from", 10, 
+↵70);
+    			context.fillText("a file on your computer?", 10, 90);
+    			context.fillText("Try viewing this page online instead.", 10, 
+↵130); 
+
+    			return false; 
+    			}
+}
+As a last step, we return false. This lets us check in the draw function whether an exception was thrown. If it was, we want to stop calling drawOneFrame for each video frame, so we exit the draw function:
+Example:	function draw(video, context, canvas) {
+    if (video.paused || video.ended) return false;
+    
+    drawOneFrame(video, context, canvas);
+        
+    // Start over!
+    setTimeout(function(){ draw(video, context, canvas); }, 0);
+}
+
+
+	Accessibility Concerns
+A major downside of canvas in its current form is its lack of accessibility. 
+The canvas doesn’t create a DOM node, is not a text-based format, and is thus essentially invisible to tools such as screen readers. 
+
+	SVG
+SVG stands for Scalable Vector Graphics, a specific file format that allows you to describe vector graphics using XML.
+A major selling point of vector graphics in general is that vector images preserve their quality even as you blow them up or shrink them down.
+We can use SVG to do many of the same tasks we can do with canvas, including drawing paths, shapes, text, gradients, and patterns. 
+There are also very useful open-source tools relevant to SVG.
+Note: What’s XML?
+XML stands for eXtensible Markup Language.  it’s a system meant to annotate text. XML tags can be used to describe data, such as the content of a file.
+
+	 Images created with SVG are available via the DOM.
+This enables technologies such as screen readers to see what’s present in an SVG object through its DOM node, as well as allowing you to inspect SVG using your browser’s developer tools. 
+Since SVG is an XML file format, it’s also more accessible to search engines than canvas.
+
+Drawing in SVG
+Drawing a circle in SVG is arguably easier than drawing a circle with canvas.
+Example:	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+   			 <circle cx="50" cy="50" r="25" fill="red"/>
+</svg>
+The viewBox attribute defines the starting location, width, and height of the SVG image.
+The circle element defines a circle, with cx and cy the X and Y coordinates of the center of the circle. 
+The radius is represented by r, while fill defines the fill style.
+To view an SVG file, you simply open it via the File menu in any browser that supports SVG.
+We can also draw rectangles in SVG, and add a stroke to them as we did with canvas.
+Let’s take advantage of SVG being an XML—and thus text-based—file format, and utilize the <desc> tag, which allows us to provide a description for the image we’re going to draw:
+Example:	<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 400 400">
+<desc>Drawing a rectangle</desc>
+</svg>
+
+Next, we populate the <rect> tag with a number of attributes that describe the rectangle. This includes the X and Y coordinate where the rectangle should be drawn, the width and height of the rectangle, the fill, the stroke, and the width of the stroke:
+Example:	<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 400 400">
+    <desc>Drawing a rectangle</desc>
+        <rect x="10" y="10" width="100" height="100"  
+            fill="blue" stroke="red" stroke-width="3"  />  
+    
+</svg>
+
+Instead of creating SVG images by hand, we can use an image editor to help. 
+One open source tool that you can use to make SVG images is Inkscape, which is available for download at http://inkscape.org/.
+
+Note:	A good resource to know about for public domain images is http://openclipart.org/, where you can find images that are free to use and free of copyright. The images have been donated by their creators for use in the public domain, even for commercial purposes, without the need for permission.
+		
+		SVG Filters
+We can use a filter in Inkscape to make it black and white. Start by opening the file in Inkscape, then choose Filters > Color > Moonarize.
+A safer approach would be to avoid using filters, and instead modify the color of the original image.
+We can do this in Inkscape by selecting the three arrows in the spinner.svg image, and then selecting Object > Fill and Stroke. The Fill and Stroke menu will appear on the right-hand side of the screen.
+From this menu, we can choose to edit the existing linear gradient by clicking the Edit button. We can then change the red, green, and blue values to 0 to make our image black and white.
+
+		Using the Raphael Library
+Raphaël is an open-source JavaScript library that makes drawing and animating with SVG much easier.
+
+Drawing and Image to Raphael’s Container
+You can draw images into a container that you create using Raphaël.
+Let’s add a div to our main index file. We’ll use this as the container for the SVG elements that we’ll create using Raphaël. We’ve given this div the ID of spinner:
+Example:	<article class="ad-ad4">
+<div id="mapDiv">        
+<h1 id="geoHeading">Where in the world are you?</h1>
+<form id="geoForm">
+<input type="button" id="geobutton" value="Tell us!">
+</form>    
+<div class="spin" id="spinner"></div> 
+</div>
+</article>
+
+We have styled this div to be placed in the center of the parent mapDiv using the following CSS.
+Example:	.spin {
+   			 position: absolute;
+    			top: 8px;
+    			left: 55px;
+}
+
+Now in our geolocation JavaScript file, geolocation .js, let’s put the spinner in place while we’re fetching the map. The first step is to turn our div into a Raphaël container. This is as simple as calling the Raphael method, and passing in the element we’d like to use along with a width and height:
+Example:	function determineLocation() {
+    if (navigator.onLine) {
+    if (Modernizr.geolocation) {
+        navigator.geolocation.getCurrentPosition(displayOnMap);
+    
+        var container = Raphael(document.getElementById("spinner"), 
+↵125, 125);
+
+Next, we draw the spinner SVG image into the newly created container with the Raphaël method image, which is called on a Raphaël container object. This method takes the path to the image, the starting coordinates where the image should be drawn, and the width and height of the image:
+Example:	var container = Raphael(document.getElementById("spinner"), 125, 
+↵125);
+var spinner = container.image("images/spinnerBW.svg", 0, 0, 125, 
+↵125);
+
+		Rotating a Spinner with Rapheal
+To animate the image to make it spin. Raphaël has animation features built in with the animate method. Before we can use this method, though, we first need to tell it which attribute to animate. Since we want to rotate our image, we’ll create an object that specifies how many degrees of rotation we want.
+We create a new object attrsToAnimate specifying that we want to animate the rotation, and we want to rotate by 720 degrees (two full turns). The way we do that is to set the value of the transform property to "r720", with the " indicating the transform is a rotation:
+Example:	var container = Raphael(document.getElementById("spinner"),125,125);
+var spinner = container.image("images/spinnerBW.png",0,0,125,125);
+var attrsToAnimate = { transform: "r720" };
+
+The final step is to call the animate method, and specify how long the animation should last. In our case, we’ll let it run for a maximum of 60 seconds. Since animate takes its values in milliseconds, we’ll pass it 60000:
+Example:	var container = Raphael(document.getElementById("spinner"),125,125);
+var spinner = container.image("images/spinnerBW.png",0,0,125,125);
+var attrsToAnimate = { transform: "r720" }; 
+spinner.animate(attrsToAnimate, 60000);
+
+One problem, though: it remains after the map has loaded. We can fix this by adding one line to the beginning of the existing displayOnMap function:
+Example:	function displayOnMap(position) {
+    document.getElementById("spinner").style.display = "none";
+}
+This line sets the display property of the spinner element to none, effectively hiding the spinner div and the SVG image we’ve loaded into it.
+
+	Canvas versus SVG
+Which is the right one to use? The answer is: it depends on what you’re doing.
+Both canvas and SVG allow you to draw custom shapes, paths, and fonts. 
+Canvas	Canvas allows for pixel manipulation, as we saw when we turned our video from color to black and white. One downside of canvas is that it operates in what’s known as immediate mode. This means that if you ever want to add more to the canvas, you’re unable to simply add to what’s already there. Every time you finish drawing a shape, the canvas no longer has access to that shape, because it won’t persist as an object that you can modify. So if you want to add to what you’ve already drawn on the canvas, you must redraw the new shape from scratch. Still, canvas does allow you to save the images you create to a PNG or JPEG file.
+There’s also no access to what’s drawn on the canvas via the DOM. Because of this, canvas is much faster than SVG and canvas is generally the better choice if you’re looking to design a game requiring lots of animations.
+SVG	What you draw to SVG is accessible via the DOM, because its mode is retained mode, meaning that the structure of the image is preserved in the XML document that describes it. SVG also has, at this time, a more complete set of tools to help you work with it, such as the Raphaël library and Inkscape. However, since SVG is a file format—rather than a set of methods that allows you to dynamically draw on a surface—you can’t manipulate SVG images the way you can manipulate pixels on canvas. It would have been impossible, for example, to use SVG to convert our color video to black and white as we did with canvas.
+
+Summary:	If you need to paint pixels to the screen and have no concerns about the ability to retrieve and modify your shapes, canvas is probably the better choice. If, on the other hand, you need to be able to access and change specific aspects of your graphics, SVG might be more appropriate.
+
+	Drag and Drop
+This API allows us to specify that certain elements are draggable, and then specify what should happen when these draggable elements are dragged over or dropped onto other elements on the page.
+There are two major kinds of functionality you can implement with Drag and Drop: 
+dragging files from your computer into a web page—in combination with the File API.
+Or dragging elements into other elements on the same page. 
+
+Note: Using Drag and Drop with the File API
+If you’d like to learn more about how to combine Drag and Drop with the File API in order to let users drag files from their desktop onto your websites, an excellent guide can be found at the Mozilla Developer Network. All modern browsers support the File API.
+There are several steps to adding drag and drop to your page:
+1.	Set the draggable attribute on any HTML elements you’d like to be draggable.
+2.	Add an event listener for the dragstart event on any draggable HTML elements.
+3.	Add an event listener for the dragover and drop events on any elements that you want to have accept dropped items.
+
+
+
+
+Feeding the WAI-ARIA Cat
+The first step is to add these new images to our index.html file. We’ll give each mouse image an ID as well:
+Example: <article id="ac3">
+    <h1>Wai-Aria? HAHA!</h1>
+    <h2>Form Accessibility</h2>
+            
+    <img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/cat.png" alt="WAI-ARIA Cat">
+            
+    <div class="content">
+    <p id="mouseContainer" class="mc">
+        <img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg" 
+↵alt="mouse treat" id="mouse1" draggable="true">
+        <img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg"  
+↵alt="mouse treat" id="mouse2" draggable="true">
+        <img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg" 
+↵alt="mouse treat" id="mouse3" draggable="true">
+    </p>
+…
+
+
+
+We style the "mouseContainer"div to have its text center aligned (assuming drag and drop is supported, which is what the .draganddrop class is checking for):
+Example: .draganddrop .mc {
+    text-align: center; 
+}
+
+Making Elements Draggable
+The next step is to make our images draggable. In order to do that, we add the draggable attribute to them, and set the value to true:
+Example:	<img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg" width="30" 
+↵alt="mouse treat" id="mouse1" draggable="true">
+<img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg" width="30" 
+↵alt="mouse treat" id="mouse2" draggable="true">
+<img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/computer-mouse-pic.svg" width="30" 
+↵alt="mouse treat" id="mouse3" draggable="true">
+
+Important: draggable is not Boolean, so you have to explicitly set it to true.
+
+Set an event listener for the dragstart event on each image. We’ll have to do this for all three of our img elements that contain the computer mouse images. So we begin by using querySelectorAll to grab all the img elements whose parent element has the ID set to mouseContainer:
+Example:  var mice = document.querySelectorAll("#mouseContainer img");
+
+Next, we’ll loop through all the img elements contained in the mice variable, and add an event listener for the dragstart event on each computer mouse:
+Example:  var mouse = null;
+      for (var i=0; i < mice.length; i++) {
+   		 mouse = mice[i];
+    		mouse.addEventListener('dragstart', function (event) {
+   		 // handle the dragstart event
+   		 });
+     }
+
+	The Data Transfer Object
+DataTransfer objects are one type of object outlined in the Drag and Drop API. These objects allow us to set and get data about the elements that are being dragged. Specifically, DataTransfer lets us define two pieces of information:
+•	the type of data we’re saving of the draggable element
+•	the value of the data itself
+In the case of our draggable mouse images, we want to be able to store the ID of these images so that we know which image is being dragged around.
+To do this, we first tell DataTransfer that we want to save some plain text by passing in the string text/plain. Then we give it the ID of our mouse image:
+Example:	mouse.addEventListener("dragstart", function (event) {
+    event.dataTransfer.setData("text/plain", this.id); 
+});
+When an element is dragged, we save the ID of the element in the DataTransfer object, to be used again once the element is dropped.
+
+
+		
+Accepting Dropped Elements
+The reason is that by default, elements on the page aren’t set up to receive dragged items. In order to override the default behavior on a specific element, we must stop it from happening. We can do that by creating two more event listeners.
+The two events we need to monitor for are dragover and drop. As you’d expect, dragover fires when you drag an item over an element, and drop fires when you drop an item on it.
+We’ll need to prevent the default behavior for both these events, since the default prohibits you from dropping an element.
+Let’s start by adding an ID to our cat image so that we can bind event handlers to it:
+Example:	<article id="ac3">
+    <h1>Wai-Aria? HAHA!</h1>
+    <h2 id="catHeading">Form Accessibility</h2>
+
+<img data-src="https://learnable-static.s3.amazonaws.com/premium/reeedr/books/html5-css3-for-the-real-world-2nd-edition/images/cat.png" id="cat" alt="WAI-ARIA Cat">
+
+You may have noticed that we also gave an ID to the h2 element. This is so we can change this text once we’ve dropped a mouse onto the cat.
+Now let’s handle the dragover event:
+Example:	var cat = document.getElementById("cat");
+cat.addEventListener("dragover", function(event) {
+    event.preventDefault();
+});
+
+Our first task is to figure out what the cat should say when a mouse is dropped on it. In order to demonstrate that we can retrieve the ID of the dropped mouse from the DataTransfer object, we’ll use a different phrase for each mouse, regardless of the order in which they’re dropped. We’ve given three cat-appropriate options: “MEOW!”, “Purrr ...”, and “NOMNOMNOM.”
+We’ll store these options inside an object called mouseHash, where the first step is to declare our object:
+Example:	cat.addEventListener("drop", function(event) {
+    var mouseHash = {};
+
+Next, we’re going to take advantage of JavaScript’s objects allowing us to store key/value pairs inside them, as well as storing each response in the mouseHash object, associating each response with the ID of one of the mouse images:
+Example:	cat.addEventListener("drop", function(event) {
+    var mouseHash = {
+    mouse1: 'NOMNOMNOM',
+    mouse2: 'Meow',
+    mouse3: 'Purrrrrr ...'
+    };
+}
+
+Our next step is to grab the h2 element that we’ll change to reflect the cat’s response:
+Example:	var catHeading = document.getElementById('catHeading');
+
+Remember when we saved the ID of the dragged element to the DataTransfer object using setData? Well, now we want to retrieve that ID. If you guessed that we’ll need a method called getData for this, you guessed right:
+Example:	var mouseID = event.originalEvent.dataTransfer.getData("text/plain");
+
+			change the text to the appropriate response:
+Example:	catHeading.innerHTML = mouseHash[mouseID];
+
+We use the information stored in the item variable (the dragged mouse’s ID) to retrieve the correct message for the h2 element. For example, if the dragged mouse is mouse1, calling mouseHash[item] will retrieve “NOMNOMNOM” and set that as the h2 element’s text.
+Given that the mouse has now been “eaten,” it makes sense to remove it from the page:
+Example:	var mousey = document.getElementById(item);
+mousey.parentNode.removeChild(mousey);
+Last but not least, we must also prevent the default behavior of not allowing elements to be dropped on our cat image, as we did before:
+Example:	event.preventDefault();
+
+Further Reading
+To learn more about the Drag and Drop API, here are a couple of good resources
+Mozilla Developer Network’s Drag and Drop documentation
+W3C’s Drag and Drop specification
