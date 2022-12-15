@@ -1,0 +1,129 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: #3a8ecf;
+}
+
+header {
+    margin: 10px;
+    padding: 10px;
+    border: 5px solid white;
+    text-align: center;
+
+}
+
+.clock {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border: 5px solid #Efefef;
+    border-radius: 50%;
+    margin: 50px auto;
+    padding: 2rem;
+    box-shadow: 
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #Efefef,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+}
+
+.clock .number {
+    --rotation: 0;
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    bottom: 2%;
+    left: 2%;
+    text-align: center;
+    transform: rotate(var(--rotation));
+}
+.clock .number1 { --rotation: 30deg;}
+.clock .number2 { --rotation: 60deg;}
+.clock .number3 { --rotation: 90deg;}
+.clock .number4 { --rotation: 120deg;}
+.clock .number5 { --rotation: 150deg;}
+.clock .number6 { --rotation: 180deg;}
+.clock .number7 { --rotation: 210deg;}
+.clock .number8 { --rotation: 240deg;}
+.clock .number9 { --rotation: 270deg;}
+.clock .number10 { --rotation: 300deg;}
+.clock .number11 { --rotation: 330deg;}
+
+.clock .hand {
+    background: #ffab3a;
+    bottom: 50%;
+    left: 55%;
+    position: absolute;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transform-origin: bottom;
+    /*z-index: 15;*/
+    transform: translateX(-50%) rotate(calc(var(--rotation) * 1deg));
+    transition: all 0.05s;
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    color: #ffab3a;
+}
+
+.clock::after {
+    content: '';
+    position: absolute;
+    background-color: #ffab3a;
+    z-index: 11;
+    width: 15px;
+    height: 15px;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.clock .hand.second {
+    width: 3px;
+    height: 40%;
+    background-color: black;
+}
+
+.clock .hand.minute {
+    width: 7px;
+    height: 40%;
+    background-color: #ffab3a;
+}
+
+.clock .hand.hour {
+    width: 10px;
+    height: 35%;
+    background-color: #ffab3a;
+}
+
+.btn {
+    background-color: #ffab3a;
+    width: 35%;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 15px;
+    position: relative;
+  }
+
+  
+  .label {
+    padding: 10px;
+    position: relative;
+    
+  }
+  
+  input {
+    width: 50%;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  #outputTime {
+    margin: 0;
+    padding: 2px;
+    border: 5px solid white;
+    text-align: center;
+  }
